@@ -1,11 +1,11 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
 use Pogodoc\Core\SerializableType;
 use Pogodoc\Core\JsonProperty;
 
-class InitializeRenderJobRequestFormatOpts extends SerializableType
+class StartImmediateRenderRequestFormatOpts extends SerializableType
 {
     /**
      * @var ?float $fromPage
@@ -20,10 +20,10 @@ class InitializeRenderJobRequestFormatOpts extends SerializableType
     public ?float $toPage;
 
     /**
-     * @var ?InitializeRenderJobRequestFormatOptsFormat $format
+     * @var ?StartImmediateRenderRequestFormatOptsFormat $format
      */
     #[JsonProperty('format')]
-    public ?InitializeRenderJobRequestFormatOptsFormat $format;
+    public ?StartImmediateRenderRequestFormatOptsFormat $format;
 
     /**
      * @var ?string $waitForSelector
@@ -35,7 +35,7 @@ class InitializeRenderJobRequestFormatOpts extends SerializableType
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
-     *   format?: ?InitializeRenderJobRequestFormatOptsFormat,
+     *   format?: ?StartImmediateRenderRequestFormatOptsFormat,
      *   waitForSelector?: ?string,
      * } $values
      */

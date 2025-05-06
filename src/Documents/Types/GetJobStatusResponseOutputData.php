@@ -1,11 +1,11 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
 use Pogodoc\Core\SerializableType;
 use Pogodoc\Core\JsonProperty;
 
-class StartImmediateRenderResponse extends SerializableType
+class GetJobStatusResponseOutputData extends SerializableType
 {
     /**
      * @var string $url

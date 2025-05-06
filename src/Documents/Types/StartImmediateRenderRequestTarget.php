@@ -1,8 +1,8 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
-enum InitializeRenderJobRequestTarget: string
+enum StartImmediateRenderRequestTarget: string
 {
     case Pdf = "pdf";
     case Html = "html";

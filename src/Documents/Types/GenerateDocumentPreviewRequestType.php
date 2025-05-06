@@ -1,6 +1,6 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
 enum GenerateDocumentPreviewRequestType: string
 {

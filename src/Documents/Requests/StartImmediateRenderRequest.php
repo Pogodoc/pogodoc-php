@@ -1,12 +1,12 @@
 <?php
 
-namespace Pogodoc\Render\Requests;
+namespace Pogodoc\Documents\Requests;
 
 use Pogodoc\Core\JsonProperty;
 use Pogodoc\Core\ArrayType;
-use Pogodoc\Render\Types\StartImmediateRenderRequestType;
-use Pogodoc\Render\Types\StartImmediateRenderRequestTarget;
-use Pogodoc\Render\Types\StartImmediateRenderRequestFormatOpts;
+use Pogodoc\Documents\Types\StartImmediateRenderRequestType;
+use Pogodoc\Documents\Types\StartImmediateRenderRequestTarget;
+use Pogodoc\Documents\Types\StartImmediateRenderRequestFormatOpts;
 
 class StartImmediateRenderRequest
 {

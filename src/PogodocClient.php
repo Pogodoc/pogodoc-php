@@ -3,7 +3,7 @@
 namespace Pogodoc;
 
 use Pogodoc\Templates\TemplatesClient;
-use Pogodoc\Render\RenderClient;
+use Pogodoc\Documents\DocumentsClient;
 use Pogodoc\Tokens\TokensClient;
 use GuzzleHttp\ClientInterface;
 use Pogodoc\Core\RawClient;
@@ -16,9 +16,9 @@ class PogodocClient
     public TemplatesClient $templates;
 
     /**
-     * @var RenderClient $render
+     * @var DocumentsClient $documents
      */
-    public RenderClient $render;
+    public DocumentsClient $documents;
 
     /**
      * @var TokensClient $tokens
@@ -68,7 +68,7 @@ class PogodocClient
         );
 
         $this->templates = new TemplatesClient($this->client);
-        $this->render = new RenderClient($this->client);
+        $this->documents = new DocumentsClient($this->client);
         $this->tokens = new TokensClient($this->client);
     }
 }

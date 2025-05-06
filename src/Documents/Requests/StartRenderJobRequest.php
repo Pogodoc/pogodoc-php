@@ -1,6 +1,6 @@
 <?php
 
-namespace Pogodoc\Render\Requests;
+namespace Pogodoc\Documents\Requests;
 
 use Pogodoc\Core\JsonProperty;
 

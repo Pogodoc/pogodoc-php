@@ -1,10 +1,10 @@
 <?php
 
-namespace Pogodoc\Render;
+namespace Pogodoc\Documents;
 
 use Pogodoc\Core\RawClient;
-use Pogodoc\Render\Requests\InitializeRenderJobRequest;
-use Pogodoc\Render\Types\InitializeRenderJobResponse;
+use Pogodoc\Documents\Requests\InitializeRenderJobRequest;
+use Pogodoc\Documents\Types\InitializeRenderJobResponse;
 use Pogodoc\Exceptions\PogodocException;
 use Pogodoc\Exceptions\PogodocApiException;
 use Pogodoc\Core\JsonApiRequest;
@@ -12,15 +12,15 @@ use Pogodoc\Environments;
 use Pogodoc\Core\HttpMethod;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
-use Pogodoc\Render\Requests\StartRenderJobRequest;
-use Pogodoc\Render\Types\StartRenderJobResponse;
-use Pogodoc\Render\Requests\GenerateDocumentPreviewRequest;
-use Pogodoc\Render\Types\GenerateDocumentPreviewResponse;
-use Pogodoc\Render\Requests\StartImmediateRenderRequest;
-use Pogodoc\Render\Types\StartImmediateRenderResponse;
-use Pogodoc\Render\Types\GetJobStatusResponse;
+use Pogodoc\Documents\Requests\StartRenderJobRequest;
+use Pogodoc\Documents\Types\StartRenderJobResponse;
+use Pogodoc\Documents\Requests\GenerateDocumentPreviewRequest;
+use Pogodoc\Documents\Types\GenerateDocumentPreviewResponse;
+use Pogodoc\Documents\Requests\StartImmediateRenderRequest;
+use Pogodoc\Documents\Types\StartImmediateRenderResponse;
+use Pogodoc\Documents\Types\GetJobStatusResponse;
 
-class RenderClient
+class DocumentsClient
 {
     /**
      * @var RawClient $client

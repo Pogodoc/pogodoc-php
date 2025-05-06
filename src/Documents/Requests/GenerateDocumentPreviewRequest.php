@@ -1,11 +1,11 @@
 <?php
 
-namespace Pogodoc\Render\Requests;
+namespace Pogodoc\Documents\Requests;
 
-use Pogodoc\Render\Types\GenerateDocumentPreviewRequestType;
+use Pogodoc\Documents\Types\GenerateDocumentPreviewRequestType;
 use Pogodoc\Core\JsonProperty;
 use Pogodoc\Core\ArrayType;
-use Pogodoc\Render\Types\GenerateDocumentPreviewRequestFormatOpts;
+use Pogodoc\Documents\Types\GenerateDocumentPreviewRequestFormatOpts;
 
 class GenerateDocumentPreviewRequest
 {

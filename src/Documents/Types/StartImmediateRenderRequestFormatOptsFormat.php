@@ -1,8 +1,8 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
-enum InitializeRenderJobRequestFormatOptsFormat: string
+enum StartImmediateRenderRequestFormatOptsFormat: string
 {
     case Letter = "letter";
     case Legal = "legal";

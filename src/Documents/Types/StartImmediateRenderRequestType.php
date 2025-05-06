@@ -1,8 +1,8 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
-enum InitializeRenderJobRequestType: string
+enum StartImmediateRenderRequestType: string
 {
     case Docx = "docx";
     case Xlsx = "xlsx";

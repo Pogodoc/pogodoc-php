@@ -1,6 +1,6 @@
 <?php
 
-namespace Pogodoc\Render\Types;
+namespace Pogodoc\Documents\Types;
 
 use Pogodoc\Core\SerializableType;
 use Pogodoc\Core\JsonProperty;

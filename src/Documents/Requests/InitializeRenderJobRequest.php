@@ -1,12 +1,12 @@
 <?php
 
-namespace Pogodoc\Render\Requests;
+namespace Pogodoc\Documents\Requests;
 
 use Pogodoc\Core\JsonProperty;
 use Pogodoc\Core\ArrayType;
-use Pogodoc\Render\Types\InitializeRenderJobRequestType;
-use Pogodoc\Render\Types\InitializeRenderJobRequestTarget;
-use Pogodoc\Render\Types\InitializeRenderJobRequestFormatOpts;
+use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
+use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
+use Pogodoc\Documents\Types\InitializeRenderJobRequestFormatOpts;
 
 class InitializeRenderJobRequest
 {
