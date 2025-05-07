@@ -8,8 +8,6 @@ use Pogodoc\Exceptions\PogodocApiException;
 use Pogodoc\Core\JsonApiRequest;
 use Pogodoc\Environments;
 use Pogodoc\Core\HttpMethod;
-use Pogodoc\Core\JsonDecoder;
-use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 
 class TokensClient
@@ -35,11 +33,10 @@ class TokensClient
      * @param ?array{
      *   baseUrl?: string,
      * } $options
-     * @return mixed
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function deleteApiToken(string $tokenId, ?array $options = null): mixed
+    public function deleteApiToken(string $tokenId, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -51,11 +48,8 @@ class TokensClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return JsonDecoder::decodeMixed($json);
+                return;
             }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }

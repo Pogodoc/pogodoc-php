@@ -12,7 +12,6 @@ use Pogodoc\Core\HttpMethod;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
-use Pogodoc\Core\JsonDecoder;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
 use Pogodoc\Templates\Types\UpdateTemplateResponse;
 use Pogodoc\Templates\Requests\GenerateTemplatePreviewsRequest;
@@ -83,11 +82,10 @@ class TemplatesClient
      * @param ?array{
      *   baseUrl?: string,
      * } $options
-     * @return mixed
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function saveCreatedTemplate(string $templateId, SaveCreatedTemplateRequest $request, ?array $options = null): mixed
+    public function saveCreatedTemplate(string $templateId, SaveCreatedTemplateRequest $request, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -100,11 +98,8 @@ class TemplatesClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return JsonDecoder::decodeMixed($json);
+                return;
             }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -162,11 +157,10 @@ class TemplatesClient
      * @param ?array{
      *   baseUrl?: string,
      * } $options
-     * @return mixed
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function deleteTemplate(string $templateId, ?array $options = null): mixed
+    public function deleteTemplate(string $templateId, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -178,11 +172,8 @@ class TemplatesClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return JsonDecoder::decodeMixed($json);
+                return;
             }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -200,11 +191,10 @@ class TemplatesClient
      * @param ?array{
      *   baseUrl?: string,
      * } $options
-     * @return mixed
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function extractTemplateFiles(string $templateId, ?array $options = null): mixed
+    public function extractTemplateFiles(string $templateId, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -216,11 +206,8 @@ class TemplatesClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return JsonDecoder::decodeMixed($json);
+                return;
             }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -355,11 +342,10 @@ class TemplatesClient
      * @param ?array{
      *   baseUrl?: string,
      * } $options
-     * @return mixed
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function uploadTemplateIndexHtml(string $templateId, UploadTemplateIndexHtmlRequest $request, ?array $options = null): mixed
+    public function uploadTemplateIndexHtml(string $templateId, UploadTemplateIndexHtmlRequest $request, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -372,11 +358,8 @@ class TemplatesClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return JsonDecoder::decodeMixed($json);
+                return;
             }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
