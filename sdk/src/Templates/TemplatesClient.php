@@ -14,7 +14,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
 use Pogodoc\Templates\Types\UpdateTemplateResponse;
-use Pogodoc\Templates\Types\ExtractTemplateFilesRequest;
 use Pogodoc\Templates\Requests\GenerateTemplatePreviewsRequest;
 use Pogodoc\Templates\Types\GenerateTemplatePreviewsResponse;
 use Pogodoc\Templates\Types\GeneratePresignedGetUrlResponse;
@@ -189,14 +188,13 @@ class TemplatesClient
      * Extracts contents from an uploaded template ZIP file and stores individual files in the appropriate S3 storage structure.
      *
      * @param string $templateId
-     * @param ?ExtractTemplateFilesRequest $request
      * @param ?array{
      *   baseUrl?: string,
      * } $options
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function extractTemplateFiles(string $templateId, ?ExtractTemplateFilesRequest $request = null, ?array $options = null): void
+    public function extractTemplateFiles(string $templateId, ?array $options = null): void
     {
         try {
             $response = $this->client->sendRequest(
@@ -204,7 +202,6 @@ class TemplatesClient
                     baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
                     path: "templates/$templateId/unzip",
                     method: HttpMethod::PATCH,
-                    body: $request,
                 ),
             );
             $statusCode = $response->getStatusCode();

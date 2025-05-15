@@ -44,13 +44,18 @@ class PogodocApiClient extends PogodocClient
         $payloadLength = $params['payloadLength'];
         unset($params['payload'], $params['payloadLength']);
 
-        print_r($params['type']);
         $init = $this->templates->initializeTemplateCreation();
         $templateId = $init->jobId;
 
+        print_r($templateId);
+
         uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
 
-        $this->templates->extractTemplateFiles($templateId, new ExtractTemplateFilesRequest());
+        print_r("uploaded zip");
+
+        $this->templates->extractTemplateFiles($templateId);
+
+        print_r("extracted files");
 
         $request = new GenerateTemplatePreviewsRequest([
             'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
@@ -155,7 +160,7 @@ class PogodocApiClient extends PogodocClient
             'type' => InitializeRenderJobRequestType::from($renderConfig['type']),
             'target' => InitializeRenderJobRequestTarget::from($renderConfig['target']),
             'templateId' => $templateId,
-            'formatOpts' => InitializeRenderJobRequestFormatOpts::from($renderConfig['formatOpts']),
+            'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts']),
         ]);
 
         $initResponse = $this->documents->initializeRenderJob($initRequest);
