@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class UpdateTemplateResponse extends SerializableType
+class UpdateTemplateResponse extends JsonSerializableType
 {
     /**
      * @var string $newContentId
@@ -22,5 +22,13 @@ class UpdateTemplateResponse extends SerializableType
         array $values,
     ) {
         $this->newContentId = $values['newContentId'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

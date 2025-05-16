@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class StartImmediateRenderResponse extends SerializableType
+class StartImmediateRenderResponse extends JsonSerializableType
 {
     /**
      * @var string $url
@@ -22,5 +22,13 @@ class StartImmediateRenderResponse extends SerializableType
         array $values,
     ) {
         $this->url = $values['url'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

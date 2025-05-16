@@ -20,8 +20,9 @@ $dotenv->load();
 $sampleData = readJsonFile(__DIR__ . '/../../data/json_data/react.json');
 $templatePath = __DIR__ . '/../../data/templates/React-Demo-App.zip';
 
+
 $client = new PogodocApiClient(
-    $_ENV['POGODOC_API_TOKEN'] ?? '',
+    $_ENV['POGODOC_API_TOKENZ'] ?? 'NEMAM TOKEN BURAZ',
     [
         'baseUrl' =>  $_ENV['LAMBDA_BASE_URL'] ?? '',
     ],
@@ -35,7 +36,7 @@ function main($client, $templatePath, $sampleData)
         'title' => 'Invoice',
         'description' => 'Invoice template',
         'type' => "html",
-        'categories' => 'invoice',
+        'categories' => ['invoice'],
         'sampleData' => $sampleData,
     ]);
 

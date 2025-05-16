@@ -2,9 +2,10 @@
 
 namespace Pogodoc\Templates\Requests;
 
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class UploadTemplateIndexHtmlRequest
+class UploadTemplateIndexHtmlRequest extends JsonSerializableType
 {
     /**
      * @var string $templateIndex

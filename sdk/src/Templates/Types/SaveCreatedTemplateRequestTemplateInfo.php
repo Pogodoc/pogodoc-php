@@ -2,11 +2,11 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 
-class SaveCreatedTemplateRequestTemplateInfo extends SerializableType
+class SaveCreatedTemplateRequestTemplateInfo extends JsonSerializableType
 {
     /**
      * @var string $title
@@ -21,10 +21,10 @@ class SaveCreatedTemplateRequestTemplateInfo extends SerializableType
     public string $description;
 
     /**
-     * @var SaveCreatedTemplateRequestTemplateInfoType $type
+     * @var value-of<SaveCreatedTemplateRequestTemplateInfoType> $type
      */
     #[JsonProperty('type')]
-    public SaveCreatedTemplateRequestTemplateInfoType $type;
+    public string $type;
 
     /**
      * @var array<string, mixed> $sampleData
@@ -39,19 +39,19 @@ class SaveCreatedTemplateRequestTemplateInfo extends SerializableType
     public ?string $sourceCode;
 
     /**
-     * @var array<SaveCreatedTemplateRequestTemplateInfoCategoriesItem> $categories
+     * @var array<value-of<SaveCreatedTemplateRequestTemplateInfoCategoriesItem>> $categories
      */
-    #[JsonProperty('categories'), ArrayType([SaveCreatedTemplateRequestTemplateInfoCategoriesItem::class])]
+    #[JsonProperty('categories'), ArrayType(['string'])]
     public array $categories;
 
     /**
      * @param array{
      *   title: string,
      *   description: string,
-     *   type: SaveCreatedTemplateRequestTemplateInfoType,
+     *   type: value-of<SaveCreatedTemplateRequestTemplateInfoType>,
      *   sampleData: array<string, mixed>,
+     *   categories: array<value-of<SaveCreatedTemplateRequestTemplateInfoCategoriesItem>>,
      *   sourceCode?: ?string,
-     *   categories: array<SaveCreatedTemplateRequestTemplateInfoCategoriesItem>,
      * } $values
      */
     public function __construct(
@@ -63,5 +63,13 @@ class SaveCreatedTemplateRequestTemplateInfo extends SerializableType
         $this->sampleData = $values['sampleData'];
         $this->sourceCode = $values['sourceCode'] ?? null;
         $this->categories = $values['categories'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

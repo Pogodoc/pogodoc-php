@@ -2,9 +2,10 @@
 
 namespace Pogodoc\Documents\Requests;
 
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobRequest
+class StartRenderJobRequest extends JsonSerializableType
 {
     /**
      * @var ?bool $shouldWaitForRenderCompletion
@@ -25,7 +26,7 @@ class StartRenderJobRequest
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
         $this->shouldWaitForRenderCompletion = $values['shouldWaitForRenderCompletion'] ?? null;
         $this->uploadPresignedS3Url = $values['uploadPresignedS3Url'] ?? null;

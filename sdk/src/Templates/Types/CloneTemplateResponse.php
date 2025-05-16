@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class CloneTemplateResponse extends SerializableType
+class CloneTemplateResponse extends JsonSerializableType
 {
     /**
      * @var string $newTemplateId
@@ -22,5 +22,13 @@ class CloneTemplateResponse extends SerializableType
         array $values,
     ) {
         $this->newTemplateId = $values['newTemplateId'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

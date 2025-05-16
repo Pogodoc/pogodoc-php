@@ -2,14 +2,16 @@
 
 namespace Pogodoc\Templates;
 
-use Pogodoc\Core\RawClient;
+use GuzzleHttp\ClientInterface;
+use Pogodoc\Core\Client\RawClient;
 use Pogodoc\Templates\Types\InitializeTemplateCreationResponse;
 use Pogodoc\Exceptions\PogodocException;
 use Pogodoc\Exceptions\PogodocApiException;
-use Pogodoc\Core\JsonApiRequest;
+use Pogodoc\Core\Json\JsonApiRequest;
 use Pogodoc\Environments;
-use Pogodoc\Core\HttpMethod;
+use Pogodoc\Core\Client\HttpMethod;
 use JsonException;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
@@ -24,17 +26,37 @@ use Pogodoc\Templates\Types\CloneTemplateResponse;
 class TemplatesClient
 {
     /**
+     * @var array{
+     *   baseUrl?: string,
+     *   client?: ClientInterface,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     * } $options
+     */
+    private array $options;
+
+    /**
      * @var RawClient $client
      */
     private RawClient $client;
 
     /**
      * @param RawClient $client
+     * @param ?array{
+     *   baseUrl?: string,
+     *   client?: ClientInterface,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     * } $options
      */
     public function __construct(
         RawClient $client,
+        ?array $options = null,
     ) {
         $this->client = $client;
+        $this->options = $options ?? [];
     }
 
     /**
@@ -42,6 +64,11 @@ class TemplatesClient
      *
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return InitializeTemplateCreationResponse
      * @throws PogodocException
@@ -49,13 +76,15 @@ class TemplatesClient
      */
     public function initializeTemplateCreation(?array $options = null): InitializeTemplateCreationResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
                     path: "templates/init",
                     method: HttpMethod::GET,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -64,6 +93,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -81,25 +120,42 @@ class TemplatesClient
      * @param SaveCreatedTemplateRequest $request
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @throws PogodocException
      * @throws PogodocApiException
      */
     public function saveCreatedTemplate(string $templateId, SaveCreatedTemplateRequest $request, ?array $options = null): void
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}",
                     method: HttpMethod::POST,
                     body: $request,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
                 return;
             }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -117,6 +173,11 @@ class TemplatesClient
      * @param UpdateTemplateRequest $request
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return UpdateTemplateResponse
      * @throws PogodocException
@@ -124,14 +185,16 @@ class TemplatesClient
      */
     public function updateTemplate(string $templateId, UpdateTemplateRequest $request, ?array $options = null): UpdateTemplateResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}",
                     method: HttpMethod::PUT,
                     body: $request,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -140,6 +203,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -156,24 +229,41 @@ class TemplatesClient
      * @param string $templateId
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @throws PogodocException
      * @throws PogodocApiException
      */
     public function deleteTemplate(string $templateId, ?array $options = null): void
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}",
                     method: HttpMethod::DELETE,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
                 return;
             }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -190,24 +280,41 @@ class TemplatesClient
      * @param string $templateId
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @throws PogodocException
      * @throws PogodocApiException
      */
     public function extractTemplateFiles(string $templateId, ?array $options = null): void
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/unzip",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/unzip",
                     method: HttpMethod::PATCH,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
                 return;
             }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -225,6 +332,11 @@ class TemplatesClient
      * @param GenerateTemplatePreviewsRequest $request
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return GenerateTemplatePreviewsResponse
      * @throws PogodocException
@@ -232,14 +344,16 @@ class TemplatesClient
      */
     public function generateTemplatePreviews(string $templateId, GenerateTemplatePreviewsRequest $request, ?array $options = null): GenerateTemplatePreviewsResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/render-previews",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/render-previews",
                     method: HttpMethod::POST,
                     body: $request,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -248,6 +362,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -264,6 +388,11 @@ class TemplatesClient
      * @param string $templateId
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return GeneratePresignedGetUrlResponse
      * @throws PogodocException
@@ -271,13 +400,15 @@ class TemplatesClient
      */
     public function generatePresignedGetUrl(string $templateId, ?array $options = null): GeneratePresignedGetUrlResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/presigned-url",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/presigned-url",
                     method: HttpMethod::GET,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -286,6 +417,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -302,6 +443,11 @@ class TemplatesClient
      * @param string $templateId
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return GetTemplateIndexHtmlResponse
      * @throws PogodocException
@@ -309,13 +455,15 @@ class TemplatesClient
      */
     public function getTemplateIndexHtml(string $templateId, ?array $options = null): GetTemplateIndexHtmlResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/index-html",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/index-html",
                     method: HttpMethod::GET,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -324,6 +472,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -341,25 +499,42 @@ class TemplatesClient
      * @param UploadTemplateIndexHtmlRequest $request
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @throws PogodocException
      * @throws PogodocApiException
      */
     public function uploadTemplateIndexHtml(string $templateId, UploadTemplateIndexHtmlRequest $request, ?array $options = null): void
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/index-html",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/index-html",
                     method: HttpMethod::POST,
                     body: $request,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
                 return;
             }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }
@@ -376,6 +551,11 @@ class TemplatesClient
      * @param string $templateId
      * @param ?array{
      *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
      * } $options
      * @return CloneTemplateResponse
      * @throws PogodocException
@@ -383,13 +563,15 @@ class TemplatesClient
      */
     public function cloneTemplate(string $templateId, ?array $options = null): CloneTemplateResponse
     {
+        $options = array_merge($this->options, $options ?? []);
         try {
             $response = $this->client->sendRequest(
                 new JsonApiRequest(
-                    baseUrl: $this->options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "templates/$templateId/clone",
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}/clone",
                     method: HttpMethod::POST,
                 ),
+                $options,
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
@@ -398,6 +580,16 @@ class TemplatesClient
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
         } catch (ClientExceptionInterface $e) {
             throw new PogodocException(message: $e->getMessage(), previous: $e);
         }

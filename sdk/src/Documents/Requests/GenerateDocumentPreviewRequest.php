@@ -2,12 +2,13 @@
 
 namespace Pogodoc\Documents\Requests;
 
+use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Documents\Types\GenerateDocumentPreviewRequestType;
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 use Pogodoc\Documents\Types\GenerateDocumentPreviewRequestFormatOpts;
 
-class GenerateDocumentPreviewRequest
+class GenerateDocumentPreviewRequest extends JsonSerializableType
 {
     /**
      * @var string $templateId
@@ -15,10 +16,10 @@ class GenerateDocumentPreviewRequest
     public string $templateId;
 
     /**
-     * @var GenerateDocumentPreviewRequestType $type
+     * @var value-of<GenerateDocumentPreviewRequestType> $type
      */
     #[JsonProperty('type')]
-    public GenerateDocumentPreviewRequestType $type;
+    public string $type;
 
     /**
      * @var array<string, mixed> $data
@@ -35,7 +36,7 @@ class GenerateDocumentPreviewRequest
     /**
      * @param array{
      *   templateId: string,
-     *   type: GenerateDocumentPreviewRequestType,
+     *   type: value-of<GenerateDocumentPreviewRequestType>,
      *   data: array<string, mixed>,
      *   formatOpts?: ?GenerateDocumentPreviewRequestFormatOpts,
      * } $values

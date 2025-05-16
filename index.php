@@ -51,11 +51,11 @@ class PogodocApiClient extends PogodocClient
 
         uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
 
-        print_r("uploaded zip");
+        print_r("uploaded zip\n");
 
         $this->templates->extractTemplateFiles($templateId);
 
-        print_r("extracted files");
+        print_r("extracted files\n");
 
         $request = new GenerateTemplatePreviewsRequest([
             'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
@@ -67,8 +67,8 @@ class PogodocApiClient extends PogodocClient
         $templateInfo = new SaveCreatedTemplateRequestTemplateInfo([
             'title' => $params['title'],
             'description' => $params['description'],
-            'type' => SaveCreatedTemplateRequestTemplateInfoType::cases()[$params['type']],
-            'categories' => [SaveCreatedTemplateRequestTemplateInfoCategoriesItem::from($params['categories'])->value],
+            'type' => SaveCreatedTemplateRequestTemplateInfoType::from($params['type']),
+            'categories' => [SaveCreatedTemplateRequestTemplateInfoCategoriesItem::Invoice],
             'sampleData' => $params['sampleData'],
             'sourceCode' => $params['sourceCode'] ?? '',
         ]);

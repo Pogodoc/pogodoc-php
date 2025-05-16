@@ -2,11 +2,12 @@
 
 namespace Pogodoc\Templates\Requests;
 
+use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfo;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonProperty;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestPreviewIds;
 
-class SaveCreatedTemplateRequest
+class SaveCreatedTemplateRequest extends JsonSerializableType
 {
     /**
      * @var SaveCreatedTemplateRequestTemplateInfo $templateInfo

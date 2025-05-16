@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GeneratePresignedGetUrlResponse extends SerializableType
+class GeneratePresignedGetUrlResponse extends JsonSerializableType
 {
     /**
      * @var string $presignedUrl
@@ -22,5 +22,13 @@ class GeneratePresignedGetUrlResponse extends SerializableType
         array $values,
     ) {
         $this->presignedUrl = $values['presignedUrl'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

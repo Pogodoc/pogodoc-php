@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class InitializeRenderJobRequestFormatOpts extends SerializableType
+class InitializeRenderJobRequestFormatOpts extends JsonSerializableType
 {
     /**
      * @var ?float $fromPage
@@ -20,10 +20,10 @@ class InitializeRenderJobRequestFormatOpts extends SerializableType
     public ?float $toPage;
 
     /**
-     * @var ?InitializeRenderJobRequestFormatOptsFormat $format
+     * @var ?value-of<InitializeRenderJobRequestFormatOptsFormat> $format
      */
     #[JsonProperty('format')]
-    public ?InitializeRenderJobRequestFormatOptsFormat $format;
+    public ?string $format;
 
     /**
      * @var ?string $waitForSelector
@@ -35,16 +35,24 @@ class InitializeRenderJobRequestFormatOpts extends SerializableType
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
-     *   format?: ?InitializeRenderJobRequestFormatOptsFormat,
+     *   format?: ?value-of<InitializeRenderJobRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
         $this->fromPage = $values['fromPage'] ?? null;
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }
