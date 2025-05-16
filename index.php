@@ -15,7 +15,6 @@ use Pogodoc\Templates\Types\UpdateTemplateRequestTemplateInfo;
 use Pogodoc\Templates\Types\UpdateTemplateRequestPreviewIds;
 use Pogodoc\Templates\Types\UpdateTemplateRequestTemplateInfoType;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoCategoriesItem;
-use Pogodoc\Templates\Types\ExtractTemplateFilesRequest;
 use Pogodoc\Documents\Requests\StartRenderJobRequest;
 use Pogodoc\Documents\Requests\InitializeRenderJobRequest;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
@@ -47,18 +46,12 @@ class PogodocApiClient extends PogodocClient
         $init = $this->templates->initializeTemplateCreation();
         $templateId = $init->jobId;
 
-        print_r($templateId);
-
         uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
-
-        print_r("uploaded zip\n");
 
         $this->templates->extractTemplateFiles($templateId);
 
-        print_r("extracted files\n");
-
         $request = new GenerateTemplatePreviewsRequest([
-            'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
+            'type' => $params['type'],
             'data' => $params['sampleData'],
         ]);
 
@@ -67,8 +60,8 @@ class PogodocApiClient extends PogodocClient
         $templateInfo = new SaveCreatedTemplateRequestTemplateInfo([
             'title' => $params['title'],
             'description' => $params['description'],
-            'type' => SaveCreatedTemplateRequestTemplateInfoType::from($params['type']),
-            'categories' => [SaveCreatedTemplateRequestTemplateInfoCategoriesItem::Invoice],
+            'type' => $params['type'],
+            'categories' => $params['categories'],
             'sampleData' => $params['sampleData'],
             'sourceCode' => $params['sourceCode'] ?? '',
         ]);
@@ -116,7 +109,8 @@ class PogodocApiClient extends PogodocClient
         $this->templates->extractTemplateFiles($contentId);
 
         $previewRequest = new GenerateTemplatePreviewsRequest ([
-            'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
+            // 'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
+            'type' => $params['type'],
             'data' => $params['sampleData'],
         ]);
 
@@ -125,7 +119,8 @@ class PogodocApiClient extends PogodocClient
         $templateInfo = new UpdateTemplateRequestTemplateInfo([
             'title' => $params['title'],
             'description' => $params['description'],
-            'type' => UpdateTemplateRequestTemplateInfoType::from($params['type']),
+            'type' => $params['type'],
+            // 'type' => UpdateTemplateRequestTemplateInfoType::from($params['type']),
             'categories' => $params['categories'],
             'sampleData' => $params['sampleData'],
             'sourceCode' => $params['sourceCode'] ?? "",
@@ -157,8 +152,10 @@ class PogodocApiClient extends PogodocClient
         $shouldWait = $params['shouldWaitForRenderCompletion'];
 
         $initRequest = new InitializeRenderJobRequest([
-            'type' => InitializeRenderJobRequestType::from($renderConfig['type']),
-            'target' => InitializeRenderJobRequestTarget::from($renderConfig['target']),
+            // 'type' => InitializeRenderJobRequestType::from($renderConfig['type']),
+            // 'target' => InitializeRenderJobRequestTarget::from($renderConfig['target']),
+            'type' => $renderConfig['type'],
+            'target' => $renderConfig['target'],
             'templateId' => $templateId,
             'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts']),
         ]);
@@ -170,22 +167,22 @@ class PogodocApiClient extends PogodocClient
         fwrite($dataStream, $dataString);
         rewind($dataStream);
 
-        if (!empty($initResponse['presignedDataUploadUrl'])) {
+        if (!empty($initResponse->presignedDataUploadUrl)) {
             uploadToS3WithUrl(
-                $initResponse['presignedDataUploadUrl'],
+                $initResponse->presignedDataUploadUrl,
                 $dataStream,
                 strlen($dataString),
                 'application/json'
             );
         }
 
-        if (!empty($template) && !empty($initResponse['presignedTemplateUploadUrl'])) {
+        if (!empty($template) && !empty($initResponse->presignedTemplateUploadUrl)) {
             $templateStream = fopen('php://temp', 'r+');
             fwrite($templateStream, $template);
             rewind($templateStream);
 
             uploadToS3WithUrl(
-                $initResponse['presignedTemplateUploadUrl'],
+                $initResponse->presignedTemplateUploadUrl,
                 $templateStream,
                 strlen($template),
                 'text/html'
@@ -194,11 +191,11 @@ class PogodocApiClient extends PogodocClient
 
         $startRenderJobRequest = new StartRenderJobRequest([
             'shouldWaitForRenderCompletion' => $shouldWait,
-            'uploadPresignedS3Url' => $renderConfig['personalUploadPresignedS3Url'],
+            'uploadPresignedS3Url' => $renderConfig->personalUploadPresignedS3Url ?? null,
             ]);
 
-        $this->documents->startRenderJob($initResponse['jobId'], $startRenderJobRequest);
+        $this->documents->startRenderJob($initResponse->jobId, $startRenderJobRequest);
 
-        return $this->documents->getJobStatus($initResponse['jobId']);
+        return $this->documents->getJobStatus($initResponse->jobId);
     }
 }
