@@ -5,20 +5,14 @@ require_once 'utils.php';
 
 use Pogodoc\PogodocClient;
 use Pogodoc\Templates\Requests\GenerateTemplatePreviewsRequest;
-use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfo;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestPreviewIds;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
-use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
 use Pogodoc\Templates\Types\UpdateTemplateRequestTemplateInfo;
 use Pogodoc\Templates\Types\UpdateTemplateRequestPreviewIds;
-use Pogodoc\Templates\Types\UpdateTemplateRequestTemplateInfoType;
-use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoCategoriesItem;
 use Pogodoc\Documents\Requests\StartRenderJobRequest;
 use Pogodoc\Documents\Requests\InitializeRenderJobRequest;
-use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
-use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestFormatOpts;
 class PogodocApiClient extends PogodocClient
 {
@@ -26,7 +20,6 @@ class PogodocApiClient extends PogodocClient
     public function saveTemplate(array $params)
     {
         $path = $params['path'];
-        unset($params['path']);
 
         $zipStream = fopen($path, 'rb');
         $zipLength = filesize($path);
@@ -41,7 +34,6 @@ class PogodocApiClient extends PogodocClient
     {
         $payload = $params['payload'];
         $payloadLength = $params['payloadLength'];
-        unset($params['payload'], $params['payloadLength']);
 
         $init = $this->templates->initializeTemplateCreation();
         $templateId = $init->jobId;
@@ -84,7 +76,6 @@ class PogodocApiClient extends PogodocClient
     public function updateTemplate(array $params)
     {
         $path = $params['path'];
-        unset($params['path']);
 
         $zipStream = fopen($path, 'rb');
         $zipLength = filesize($path);
@@ -99,7 +90,6 @@ class PogodocApiClient extends PogodocClient
     {
         $payload = $params['payload'];
         $payloadLength = $params['payloadLength'];
-        unset($params['payload'], $params['payloadLength']);
 
         $init = $this->templates->initializeTemplateCreation();
         $contentId = $init->jobId;

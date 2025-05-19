@@ -2,12 +2,10 @@
 
 <?php
 
-require_once 'vendor/autoload.php'; // For dotenv
-require_once 'index.php'; // For PogodocClient
+require_once 'vendor/autoload.php';
+require_once 'index.php';
 
 use Dotenv\Dotenv;
-use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
-use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
