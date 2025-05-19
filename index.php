@@ -14,6 +14,12 @@ use Pogodoc\Templates\Types\UpdateTemplateRequestPreviewIds;
 use Pogodoc\Documents\Requests\StartRenderJobRequest;
 use Pogodoc\Documents\Requests\InitializeRenderJobRequest;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestFormatOpts;
+use Pogodoc\Templates\Types\UpdateTemplateRequestTemplateInfoType;
+use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
+use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
+use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
+use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
+
 class PogodocApiClient extends PogodocClient
 {
 
@@ -43,7 +49,7 @@ class PogodocApiClient extends PogodocClient
         $this->templates->extractTemplateFiles($templateId);
 
         $request = new GenerateTemplatePreviewsRequest([
-            'type' => $params['type'],
+            'type' => GenerateTemplatePreviewsRequestType::from($params['type'])->value,
             'data' => $params['sampleData'],
         ]);
 
@@ -52,7 +58,7 @@ class PogodocApiClient extends PogodocClient
         $templateInfo = new SaveCreatedTemplateRequestTemplateInfo([
             'title' => $params['title'],
             'description' => $params['description'],
-            'type' => $params['type'],
+            'type' => SaveCreatedTemplateRequestTemplateInfoType::from($params['type'])->value,
             'categories' => $params['categories'],
             'sampleData' => $params['sampleData'],
             'sourceCode' => $params['sourceCode'] ?? '',
@@ -99,8 +105,7 @@ class PogodocApiClient extends PogodocClient
         $this->templates->extractTemplateFiles($contentId);
 
         $previewRequest = new GenerateTemplatePreviewsRequest ([
-            // 'type' => GenerateTemplatePreviewsRequestType::from($params['type']),
-            'type' => $params['type'],
+            'type' => GenerateTemplatePreviewsRequestType::from($params['type'])->value,
             'data' => $params['sampleData'],
         ]);
 
@@ -109,8 +114,7 @@ class PogodocApiClient extends PogodocClient
         $templateInfo = new UpdateTemplateRequestTemplateInfo([
             'title' => $params['title'],
             'description' => $params['description'],
-            'type' => $params['type'],
-            // 'type' => UpdateTemplateRequestTemplateInfoType::from($params['type']),
+            'type' => UpdateTemplateRequestTemplateInfoType::from($params['type'])->value,
             'categories' => $params['categories'],
             'sampleData' => $params['sampleData'],
             'sourceCode' => $params['sourceCode'] ?? "",
@@ -142,10 +146,8 @@ class PogodocApiClient extends PogodocClient
         $shouldWait = $params['shouldWaitForRenderCompletion'];
 
         $initRequest = new InitializeRenderJobRequest([
-            // 'type' => InitializeRenderJobRequestType::from($renderConfig['type']),
-            // 'target' => InitializeRenderJobRequestTarget::from($renderConfig['target']),
-            'type' => $renderConfig['type'],
-            'target' => $renderConfig['target'],
+            'type' => InitializeRenderJobRequestType::from($renderConfig['type'])->value,
+            'target' => InitializeRenderJobRequestTarget::from($renderConfig['target'])->value,
             'templateId' => $templateId,
             'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts']),
         ]);
