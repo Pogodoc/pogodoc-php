@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GetTemplateIndexHtmlResponse extends SerializableType
+class GetTemplateIndexHtmlResponse extends JsonSerializableType
 {
     /**
      * @var string $templateIndex
@@ -22,5 +22,13 @@ class GetTemplateIndexHtmlResponse extends SerializableType
         array $values,
     ) {
         $this->templateIndex = $values['templateIndex'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

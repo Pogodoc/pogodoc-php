@@ -2,13 +2,14 @@
 
 namespace Pogodoc\Documents\Requests;
 
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestFormatOpts;
 
-class InitializeRenderJobRequest
+class InitializeRenderJobRequest extends JsonSerializableType
 {
     /**
      * @var ?array<string, mixed> $data
@@ -17,16 +18,16 @@ class InitializeRenderJobRequest
     public ?array $data;
 
     /**
-     * @var InitializeRenderJobRequestType $type
+     * @var value-of<InitializeRenderJobRequestType> $type
      */
     #[JsonProperty('type')]
-    public InitializeRenderJobRequestType $type;
+    public string $type;
 
     /**
-     * @var InitializeRenderJobRequestTarget $target
+     * @var value-of<InitializeRenderJobRequestTarget> $target
      */
     #[JsonProperty('target')]
-    public InitializeRenderJobRequestTarget $target;
+    public string $target;
 
     /**
      * @var ?string $templateId
@@ -42,9 +43,9 @@ class InitializeRenderJobRequest
 
     /**
      * @param array{
+     *   type: value-of<InitializeRenderJobRequestType>,
+     *   target: value-of<InitializeRenderJobRequestTarget>,
      *   data?: ?array<string, mixed>,
-     *   type: InitializeRenderJobRequestType,
-     *   target: InitializeRenderJobRequestTarget,
      *   templateId?: ?string,
      *   formatOpts?: ?InitializeRenderJobRequestFormatOpts,
      * } $values

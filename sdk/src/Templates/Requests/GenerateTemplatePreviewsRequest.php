@@ -2,18 +2,19 @@
 
 namespace Pogodoc\Templates\Requests;
 
+use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestFormatOpts;
 
-class GenerateTemplatePreviewsRequest
+class GenerateTemplatePreviewsRequest extends JsonSerializableType
 {
     /**
-     * @var GenerateTemplatePreviewsRequestType $type
+     * @var value-of<GenerateTemplatePreviewsRequestType> $type
      */
     #[JsonProperty('type')]
-    public GenerateTemplatePreviewsRequestType $type;
+    public string $type;
 
     /**
      * @var array<string, mixed> $data
@@ -29,7 +30,7 @@ class GenerateTemplatePreviewsRequest
 
     /**
      * @param array{
-     *   type: GenerateTemplatePreviewsRequestType,
+     *   type: value-of<GenerateTemplatePreviewsRequestType>,
      *   data: array<string, mixed>,
      *   formatOpts?: ?GenerateTemplatePreviewsRequestFormatOpts,
      * } $values

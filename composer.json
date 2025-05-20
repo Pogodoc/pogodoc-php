@@ -1,0 +1,18 @@
+{
+  "name": "martin/php",
+  "autoload": {
+    "psr-4": {
+      "Pogodoc\\": "sdk/src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "martin.mitev",
+      "email": "martin.mitev@codechem.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.9",
+    "vlucas/phpdotenv": "^5.6"
+  }
+}

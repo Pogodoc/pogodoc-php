@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GenerateTemplatePreviewsResponse extends SerializableType
+class GenerateTemplatePreviewsResponse extends JsonSerializableType
 {
     /**
      * @var GenerateTemplatePreviewsResponsePngPreview $pngPreview
@@ -30,5 +30,13 @@ class GenerateTemplatePreviewsResponse extends SerializableType
     ) {
         $this->pngPreview = $values['pngPreview'];
         $this->pdfPreview = $values['pdfPreview'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

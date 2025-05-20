@@ -26,13 +26,15 @@ class PogodocClient
     public TokensClient $tokens;
 
     /**
-     * @var ?array{
+     * @var array{
      *   baseUrl?: string,
      *   client?: ClientInterface,
+     *   maxRetries?: int,
+     *   timeout?: float,
      *   headers?: array<string, string>,
      * } $options
      */
-    private ?array $options;
+    private array $options;
 
     /**
      * @var RawClient $client
@@ -40,22 +42,26 @@ class PogodocClient
     private RawClient $client;
 
     /**
-     * @param string $token The token to use for authentication.
+     * @param ?string $token The token to use for authentication.
      * @param ?array{
      *   baseUrl?: string,
      *   client?: ClientInterface,
+     *   maxRetries?: int,
+     *   timeout?: float,
      *   headers?: array<string, string>,
      * } $options
      */
     public function __construct(
-        string $token,
+        ?string $token = null,
         ?array $options = null,
     ) {
         $defaultHeaders = [
-            'Authorization' => "Bearer $token",
             'X-Fern-Language' => 'PHP',
             'X-Fern-SDK-Name' => 'Pogodoc',
         ];
+        if ($token != null) {
+            $defaultHeaders['Authorization'] = "Bearer $token";
+        }
 
         $this->options = $options ?? [];
         $this->options['headers'] = array_merge(

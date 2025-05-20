@@ -2,13 +2,14 @@
 
 namespace Pogodoc\Documents\Requests;
 
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestType;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestTarget;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestFormatOpts;
 
-class StartImmediateRenderRequest
+class StartImmediateRenderRequest extends JsonSerializableType
 {
     /**
      * @var array<string, mixed> $startImmediateRenderRequestData
@@ -17,16 +18,16 @@ class StartImmediateRenderRequest
     public array $startImmediateRenderRequestData;
 
     /**
-     * @var StartImmediateRenderRequestType $type
+     * @var value-of<StartImmediateRenderRequestType> $type
      */
     #[JsonProperty('type')]
-    public StartImmediateRenderRequestType $type;
+    public string $type;
 
     /**
-     * @var StartImmediateRenderRequestTarget $target
+     * @var value-of<StartImmediateRenderRequestTarget> $target
      */
     #[JsonProperty('target')]
-    public StartImmediateRenderRequestTarget $target;
+    public string $target;
 
     /**
      * @var ?string $templateId
@@ -49,8 +50,8 @@ class StartImmediateRenderRequest
     /**
      * @param array{
      *   startImmediateRenderRequestData: array<string, mixed>,
-     *   type: StartImmediateRenderRequestType,
-     *   target: StartImmediateRenderRequestTarget,
+     *   type: value-of<StartImmediateRenderRequestType>,
+     *   target: value-of<StartImmediateRenderRequestTarget>,
      *   templateId?: ?string,
      *   formatOpts?: ?StartImmediateRenderRequestFormatOpts,
      *   template?: ?string,

@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GenerateDocumentPreviewRequestFormatOpts extends SerializableType
+class GenerateDocumentPreviewRequestFormatOpts extends JsonSerializableType
 {
     /**
      * @var ?float $fromPage
@@ -20,10 +20,10 @@ class GenerateDocumentPreviewRequestFormatOpts extends SerializableType
     public ?float $toPage;
 
     /**
-     * @var ?GenerateDocumentPreviewRequestFormatOptsFormat $format
+     * @var ?value-of<GenerateDocumentPreviewRequestFormatOptsFormat> $format
      */
     #[JsonProperty('format')]
-    public ?GenerateDocumentPreviewRequestFormatOptsFormat $format;
+    public ?string $format;
 
     /**
      * @var ?string $waitForSelector
@@ -35,16 +35,24 @@ class GenerateDocumentPreviewRequestFormatOpts extends SerializableType
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
-     *   format?: ?GenerateDocumentPreviewRequestFormatOptsFormat,
+     *   format?: ?value-of<GenerateDocumentPreviewRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
         $this->fromPage = $values['fromPage'] ?? null;
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

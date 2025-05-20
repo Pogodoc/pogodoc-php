@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class InitializeRenderJobResponse extends SerializableType
+class InitializeRenderJobResponse extends JsonSerializableType
 {
     /**
      * @var string $jobId
@@ -14,10 +14,10 @@ class InitializeRenderJobResponse extends SerializableType
     public string $jobId;
 
     /**
-     * @var InitializeRenderJobResponseTarget $target
+     * @var value-of<InitializeRenderJobResponseTarget> $target
      */
     #[JsonProperty('target')]
-    public InitializeRenderJobResponseTarget $target;
+    public string $target;
 
     /**
      * @var ?string $presignedDataUploadUrl
@@ -34,7 +34,7 @@ class InitializeRenderJobResponse extends SerializableType
     /**
      * @param array{
      *   jobId: string,
-     *   target: InitializeRenderJobResponseTarget,
+     *   target: value-of<InitializeRenderJobResponseTarget>,
      *   presignedDataUploadUrl?: ?string,
      *   presignedTemplateUploadUrl?: ?string,
      * } $values
@@ -46,5 +46,13 @@ class InitializeRenderJobResponse extends SerializableType
         $this->target = $values['target'];
         $this->presignedDataUploadUrl = $values['presignedDataUploadUrl'] ?? null;
         $this->presignedTemplateUploadUrl = $values['presignedTemplateUploadUrl'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

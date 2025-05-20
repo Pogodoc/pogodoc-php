@@ -2,11 +2,11 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
-use Pogodoc\Core\ArrayType;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
+use Pogodoc\Core\Types\ArrayType;
 
-class UpdateTemplateRequestTemplateInfo extends SerializableType
+class UpdateTemplateRequestTemplateInfo extends JsonSerializableType
 {
     /**
      * @var string $title
@@ -21,10 +21,10 @@ class UpdateTemplateRequestTemplateInfo extends SerializableType
     public string $description;
 
     /**
-     * @var UpdateTemplateRequestTemplateInfoType $type
+     * @var value-of<UpdateTemplateRequestTemplateInfoType> $type
      */
     #[JsonProperty('type')]
-    public UpdateTemplateRequestTemplateInfoType $type;
+    public string $type;
 
     /**
      * @var array<string, mixed> $sampleData
@@ -39,19 +39,19 @@ class UpdateTemplateRequestTemplateInfo extends SerializableType
     public ?string $sourceCode;
 
     /**
-     * @var array<UpdateTemplateRequestTemplateInfoCategoriesItem> $categories
+     * @var array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>> $categories
      */
-    #[JsonProperty('categories'), ArrayType([UpdateTemplateRequestTemplateInfoCategoriesItem::class])]
+    #[JsonProperty('categories'), ArrayType(['string'])]
     public array $categories;
 
     /**
      * @param array{
      *   title: string,
      *   description: string,
-     *   type: UpdateTemplateRequestTemplateInfoType,
+     *   type: value-of<UpdateTemplateRequestTemplateInfoType>,
      *   sampleData: array<string, mixed>,
+     *   categories: array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>>,
      *   sourceCode?: ?string,
-     *   categories: array<UpdateTemplateRequestTemplateInfoCategoriesItem>,
      * } $values
      */
     public function __construct(
@@ -63,5 +63,13 @@ class UpdateTemplateRequestTemplateInfo extends SerializableType
         $this->sampleData = $values['sampleData'];
         $this->sourceCode = $values['sourceCode'] ?? null;
         $this->categories = $values['categories'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

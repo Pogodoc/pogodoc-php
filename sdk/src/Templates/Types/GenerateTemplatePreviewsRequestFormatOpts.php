@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GenerateTemplatePreviewsRequestFormatOpts extends SerializableType
+class GenerateTemplatePreviewsRequestFormatOpts extends JsonSerializableType
 {
     /**
      * @var ?float $fromPage
@@ -20,10 +20,10 @@ class GenerateTemplatePreviewsRequestFormatOpts extends SerializableType
     public ?float $toPage;
 
     /**
-     * @var ?GenerateTemplatePreviewsRequestFormatOptsFormat $format
+     * @var ?value-of<GenerateTemplatePreviewsRequestFormatOptsFormat> $format
      */
     #[JsonProperty('format')]
-    public ?GenerateTemplatePreviewsRequestFormatOptsFormat $format;
+    public ?string $format;
 
     /**
      * @var ?string $waitForSelector
@@ -35,16 +35,24 @@ class GenerateTemplatePreviewsRequestFormatOpts extends SerializableType
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
-     *   format?: ?GenerateTemplatePreviewsRequestFormatOptsFormat,
+     *   format?: ?value-of<GenerateTemplatePreviewsRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
         $this->fromPage = $values['fromPage'] ?? null;
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

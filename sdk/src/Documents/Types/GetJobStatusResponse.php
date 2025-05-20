@@ -2,16 +2,16 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GetJobStatusResponse extends SerializableType
+class GetJobStatusResponse extends JsonSerializableType
 {
     /**
-     * @var GetJobStatusResponseType $type
+     * @var value-of<GetJobStatusResponseType> $type
      */
     #[JsonProperty('type')]
-    public GetJobStatusResponseType $type;
+    public string $type;
 
     /**
      * @var string $jobId
@@ -20,10 +20,10 @@ class GetJobStatusResponse extends SerializableType
     public string $jobId;
 
     /**
-     * @var GetJobStatusResponseTarget $target
+     * @var value-of<GetJobStatusResponseTarget> $target
      */
     #[JsonProperty('target')]
-    public GetJobStatusResponseTarget $target;
+    public string $target;
 
     /**
      * @var ?GetJobStatusResponseOutput $output
@@ -45,9 +45,9 @@ class GetJobStatusResponse extends SerializableType
 
     /**
      * @param array{
-     *   type: GetJobStatusResponseType,
+     *   type: value-of<GetJobStatusResponseType>,
      *   jobId: string,
-     *   target: GetJobStatusResponseTarget,
+     *   target: value-of<GetJobStatusResponseTarget>,
      *   output?: ?GetJobStatusResponseOutput,
      *   success?: ?bool,
      *   status?: ?string,
@@ -62,5 +62,13 @@ class GetJobStatusResponse extends SerializableType
         $this->output = $values['output'] ?? null;
         $this->success = $values['success'] ?? null;
         $this->status = $values['status'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

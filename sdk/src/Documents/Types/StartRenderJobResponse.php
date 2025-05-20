@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponse extends SerializableType
+class StartRenderJobResponse extends JsonSerializableType
 {
     /**
      * @var string $jobId
@@ -22,5 +22,13 @@ class StartRenderJobResponse extends SerializableType
         array $values,
     ) {
         $this->jobId = $values['jobId'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

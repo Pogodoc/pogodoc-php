@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Documents\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class GetJobStatusResponseOutput extends SerializableType
+class GetJobStatusResponseOutput extends JsonSerializableType
 {
     /**
      * @var GetJobStatusResponseOutputData $data
@@ -30,5 +30,13 @@ class GetJobStatusResponseOutput extends SerializableType
     ) {
         $this->data = $values['data'];
         $this->metadata = $values['metadata'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

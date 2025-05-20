@@ -2,10 +2,10 @@
 
 namespace Pogodoc\Templates\Types;
 
-use Pogodoc\Core\SerializableType;
-use Pogodoc\Core\JsonProperty;
+use Pogodoc\Core\Json\JsonSerializableType;
+use Pogodoc\Core\Json\JsonProperty;
 
-class InitializeTemplateCreationResponse extends SerializableType
+class InitializeTemplateCreationResponse extends JsonSerializableType
 {
     /**
      * @var string $jobId
@@ -30,5 +30,13 @@ class InitializeTemplateCreationResponse extends SerializableType
     ) {
         $this->jobId = $values['jobId'];
         $this->presignedTemplateUploadUrl = $values['presignedTemplateUploadUrl'];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
     }
 }

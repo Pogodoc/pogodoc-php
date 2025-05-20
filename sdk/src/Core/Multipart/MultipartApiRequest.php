@@ -1,8 +1,11 @@
 <?php
 
-namespace Pogodoc\Core;
+namespace Pogodoc\Core\Multipart;
 
-class JsonApiRequest extends BaseApiRequest
+use Pogodoc\Core\Client\BaseApiRequest;
+use Pogodoc\Core\Client\HttpMethod;
+
+class MultipartApiRequest extends BaseApiRequest
 {
     /**
      * @param string $baseUrl The base URL for the request
@@ -10,7 +13,7 @@ class JsonApiRequest extends BaseApiRequest
      * @param HttpMethod $method The HTTP method for the request
      * @param array<string, string> $headers Additional headers for the request (optional)
      * @param array<string, mixed> $query Query parameters for the request (optional)
-     * @param mixed|null $body The JSON request body (optional)
+     * @param ?MultipartFormData $body The multipart form data for the request (optional)
      */
     public function __construct(
         string $baseUrl,
@@ -18,7 +21,7 @@ class JsonApiRequest extends BaseApiRequest
         HttpMethod $method,
         array $headers = [],
         array $query = [],
-        public readonly mixed $body = null
+        public readonly ?MultipartFormData $body = null
     ) {
         parent::__construct($baseUrl, $path, $method, $headers, $query);
     }
