@@ -6,7 +6,13 @@ use Pogodoc\Templates\TemplatesClient;
 use Pogodoc\Documents\DocumentsClient;
 use Pogodoc\Tokens\TokensClient;
 use GuzzleHttp\ClientInterface;
-use Pogodoc\Core\RawClient;
+use Pogodoc\Core\Client\RawClient;
+use Pogodoc\Exceptions\PogodocException;
+use Pogodoc\Exceptions\PogodocApiException;
+use Pogodoc\Core\Json\JsonApiRequest;
+use Pogodoc\Core\Client\HttpMethod;
+use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Client\ClientExceptionInterface;
 
 class PogodocClient
 {
@@ -73,8 +79,56 @@ class PogodocClient
             options: $this->options,
         );
 
-        $this->templates = new TemplatesClient($this->client);
-        $this->documents = new DocumentsClient($this->client);
-        $this->tokens = new TokensClient($this->client);
+        $this->templates = new TemplatesClient($this->client, $this->options);
+        $this->documents = new DocumentsClient($this->client, $this->options);
+        $this->tokens = new TokensClient($this->client, $this->options);
+    }
+
+    /**
+     * @param ?array{
+     *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
+     * } $options
+     * @throws PogodocException
+     * @throws PogodocApiException
+     */
+    public function postBoshe(?array $options = null): void
+    {
+        $options = array_merge($this->options, $options ?? []);
+        try {
+            $response = $this->client->sendRequest(
+                new JsonApiRequest(
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "boshe",
+                    method: HttpMethod::POST,
+                ),
+                $options,
+            );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode >= 200 && $statusCode < 400) {
+                return;
+            }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
+        } catch (ClientExceptionInterface $e) {
+            throw new PogodocException(message: $e->getMessage(), previous: $e);
+        }
+        throw new PogodocApiException(
+            message: 'API request failed',
+            statusCode: $statusCode,
+            body: $response->getBody()->getContents(),
+        );
     }
 }

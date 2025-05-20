@@ -57,7 +57,7 @@ function main($client, $templatePath, $sampleData)
 
     $updateTemplateId = $client->updateTemplate([
         'path' => $templatePath,
-        'templateId' => '9c4ace0a-8d6f-4371-b455-38508f1f8ac2',
+        'templateId' => $templateId,
         'title' => 'Invoice',
         'description' => 'Invoice template',
         'type' => 'html',
@@ -66,6 +66,11 @@ function main($client, $templatePath, $sampleData)
     ]);
 
    echo $updateTemplateId . "\n";
+
+    $presignedUrl = $client->templates->generatePresignedGetUrl($templateId);
+
+    print_r($presignedUrl->presignedUrl);
+
 }
 
 function readJsonFile($filePath)
