@@ -1,13 +1,13 @@
 {
-  "name": "martin/php",
+  "name": "pogodoc/pogodoc-php",
   "autoload": {
     "psr-4": {
-      "Pogodoc\\": "src/sdk/src/"
+      "Pogodoc\\": "src/sdk/src"
     }
   },
   "authors": [
     {
-      "name": "martin.mitev",
+      "name": "martinmitev",
       "email": "martin.mitev@codechem.com"
     }
   ],
