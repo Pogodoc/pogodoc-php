@@ -2,7 +2,7 @@
   "name": "martin/php",
   "autoload": {
     "psr-4": {
-      "Pogodoc\\": "sdk/src/"
+      "Pogodoc\\": "src/sdk/src/"
     }
   },
   "authors": [

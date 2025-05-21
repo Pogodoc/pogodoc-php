@@ -7,11 +7,11 @@ require_once 'index.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
 
-$sampleData = readJsonFile(__DIR__ . '/../../data/json_data/react.json');
-$templatePath = __DIR__ . '/../../data/templates/React-Demo-App.zip';
+$sampleData = readJsonFile(__DIR__ . '/../../../data/json_data/react.json');
+$templatePath = __DIR__ . '/../../../data/templates/React-Demo-App.zip';
 
 
 $client = new PogodocApiClient(
