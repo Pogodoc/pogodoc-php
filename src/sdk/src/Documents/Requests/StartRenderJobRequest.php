@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class StartRenderJobRequest extends JsonSerializableType
 {
     /**
-     * @var ?bool $shouldWaitForRenderCompletion
+     * @var ?bool $shouldWaitForRenderCompletion Whether to wait for the render job to complete, if false, the job will be returned immediately
      */
     #[JsonProperty('shouldWaitForRenderCompletion')]
     public ?bool $shouldWaitForRenderCompletion;

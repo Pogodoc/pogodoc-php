@@ -12,37 +12,37 @@ use Pogodoc\Documents\Types\StartImmediateRenderRequestFormatOpts;
 class StartImmediateRenderRequest extends JsonSerializableType
 {
     /**
-     * @var array<string, mixed> $startImmediateRenderRequestData
+     * @var array<string, mixed> $startImmediateRenderRequestData Sample data for the template
      */
     #[JsonProperty('data'), ArrayType(['string' => 'mixed'])]
     public array $startImmediateRenderRequestData;
 
     /**
-     * @var value-of<StartImmediateRenderRequestType> $type
+     * @var value-of<StartImmediateRenderRequestType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
     public string $type;
 
     /**
-     * @var value-of<StartImmediateRenderRequestTarget> $target
+     * @var value-of<StartImmediateRenderRequestTarget> $target Type of output to be rendered
      */
     #[JsonProperty('target')]
     public string $target;
 
     /**
-     * @var ?string $templateId
+     * @var ?string $templateId ID of the template to be used
      */
     #[JsonProperty('templateId')]
     public ?string $templateId;
 
     /**
-     * @var ?StartImmediateRenderRequestFormatOpts $formatOpts
+     * @var ?StartImmediateRenderRequestFormatOpts $formatOpts Format options for the rendered document
      */
     #[JsonProperty('formatOpts')]
     public ?StartImmediateRenderRequestFormatOpts $formatOpts;
 
     /**
-     * @var ?string $template
+     * @var ?string $template index.html or ejs file of the template as a string
      */
     #[JsonProperty('template')]
     public ?string $template;

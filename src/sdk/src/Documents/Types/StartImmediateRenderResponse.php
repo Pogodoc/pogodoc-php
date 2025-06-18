@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class StartImmediateRenderResponse extends JsonSerializableType
 {
     /**
-     * @var string $url
+     * @var string $url URL of the rendered output
      */
     #[JsonProperty('url')]
     public string $url;

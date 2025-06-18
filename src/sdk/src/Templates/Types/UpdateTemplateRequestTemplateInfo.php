@@ -9,25 +9,25 @@ use Pogodoc\Core\Types\ArrayType;
 class UpdateTemplateRequestTemplateInfo extends JsonSerializableType
 {
     /**
-     * @var string $title
+     * @var string $title Title of the template
      */
     #[JsonProperty('title')]
     public string $title;
 
     /**
-     * @var string $description
+     * @var string $description Description of the template
      */
     #[JsonProperty('description')]
     public string $description;
 
     /**
-     * @var value-of<UpdateTemplateRequestTemplateInfoType> $type
+     * @var value-of<UpdateTemplateRequestTemplateInfoType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
     public string $type;
 
     /**
-     * @var array<string, mixed> $sampleData
+     * @var array<string, mixed> $sampleData Sample data for the template
      */
     #[JsonProperty('sampleData'), ArrayType(['string' => 'mixed'])]
     public array $sampleData;
@@ -39,7 +39,7 @@ class UpdateTemplateRequestTemplateInfo extends JsonSerializableType
     public ?string $sourceCode;
 
     /**
-     * @var array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>> $categories
+     * @var array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>> $categories Categories of the template
      */
     #[JsonProperty('categories'), ArrayType(['string'])]
     public array $categories;

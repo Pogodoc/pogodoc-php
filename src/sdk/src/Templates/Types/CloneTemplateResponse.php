@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class CloneTemplateResponse extends JsonSerializableType
 {
     /**
-     * @var string $newTemplateId
+     * @var string $newTemplateId ID of the new template
      */
     #[JsonProperty('newTemplateId')]
     public string $newTemplateId;

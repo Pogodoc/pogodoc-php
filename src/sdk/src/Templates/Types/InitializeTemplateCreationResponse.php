@@ -8,27 +8,27 @@ use Pogodoc\Core\Json\JsonProperty;
 class InitializeTemplateCreationResponse extends JsonSerializableType
 {
     /**
-     * @var string $jobId
+     * @var string $templateId ID of the template
      */
-    #[JsonProperty('jobId')]
-    public string $jobId;
+    #[JsonProperty('templateId')]
+    public string $templateId;
 
     /**
-     * @var string $presignedTemplateUploadUrl
+     * @var string $presignedTemplateUploadUrl Presigned URL to upload the template to S3
      */
     #[JsonProperty('presignedTemplateUploadUrl')]
     public string $presignedTemplateUploadUrl;
 
     /**
      * @param array{
-     *   jobId: string,
+     *   templateId: string,
      *   presignedTemplateUploadUrl: string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->jobId = $values['jobId'];
+        $this->templateId = $values['templateId'];
         $this->presignedTemplateUploadUrl = $values['presignedTemplateUploadUrl'];
     }
 

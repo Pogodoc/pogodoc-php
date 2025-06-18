@@ -8,27 +8,27 @@ use Pogodoc\Core\Json\JsonProperty;
 class GenerateTemplatePreviewsResponsePngPreview extends JsonSerializableType
 {
     /**
-     * @var ?string $url
+     * @var string $url URL of the rendered preview
      */
     #[JsonProperty('url')]
-    public ?string $url;
+    public string $url;
 
     /**
-     * @var string $jobId
+     * @var string $jobId ID of the render job
      */
     #[JsonProperty('jobId')]
     public string $jobId;
 
     /**
      * @param array{
+     *   url: string,
      *   jobId: string,
-     *   url?: ?string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->url = $values['url'] ?? null;
+        $this->url = $values['url'];
         $this->jobId = $values['jobId'];
     }
 

@@ -5,6 +5,9 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
+/**
+ * Format options for the rendered document
+ */
 class StartImmediateRenderRequestFormatOpts extends JsonSerializableType
 {
     /**
@@ -26,7 +29,7 @@ class StartImmediateRenderRequestFormatOpts extends JsonSerializableType
     public ?string $format;
 
     /**
-     * @var ?string $waitForSelector
+     * @var ?string $waitForSelector Selector to wait for to know when the page is loaded and can be saved as pdf, png, etc.
      */
     #[JsonProperty('waitForSelector')]
     public ?string $waitForSelector;

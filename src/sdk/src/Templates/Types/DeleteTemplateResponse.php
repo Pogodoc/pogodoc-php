@@ -1,27 +1,27 @@
 <?php
 
-namespace Pogodoc\Documents\Types;
+namespace Pogodoc\Templates\Types;
 
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponse extends JsonSerializableType
+class DeleteTemplateResponse extends JsonSerializableType
 {
     /**
-     * @var string $jobId ID of the render job
+     * @var string $templateId
      */
-    #[JsonProperty('jobId')]
-    public string $jobId;
+    #[JsonProperty('templateId')]
+    public string $templateId;
 
     /**
      * @param array{
-     *   jobId: string,
+     *   templateId: string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->jobId = $values['jobId'];
+        $this->templateId = $values['templateId'];
     }
 
     /**

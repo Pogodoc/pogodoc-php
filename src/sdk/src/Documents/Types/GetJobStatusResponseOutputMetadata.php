@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class GetJobStatusResponseOutputMetadata extends JsonSerializableType
 {
     /**
-     * @var float $renderTime
+     * @var float $renderTime Time taken to render the output
      */
     #[JsonProperty('renderTime')]
     public float $renderTime;

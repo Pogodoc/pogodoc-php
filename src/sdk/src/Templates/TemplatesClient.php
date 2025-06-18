@@ -16,6 +16,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
 use Pogodoc\Templates\Types\UpdateTemplateResponse;
+use Pogodoc\Templates\Types\DeleteTemplateResponse;
 use Pogodoc\Templates\Requests\GenerateTemplatePreviewsRequest;
 use Pogodoc\Templates\Types\GenerateTemplatePreviewsResponse;
 use Pogodoc\Templates\Types\GeneratePresignedGetUrlResponse;
@@ -226,7 +227,7 @@ class TemplatesClient
     /**
      * Deletes a template from Strapi and associated S3 storage. Removes all associated files and metadata.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be deleted
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,
@@ -235,10 +236,11 @@ class TemplatesClient
      *   queryParameters?: array<string, mixed>,
      *   bodyProperties?: array<string, mixed>,
      * } $options
+     * @return DeleteTemplateResponse
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function deleteTemplate(string $templateId, ?array $options = null): void
+    public function deleteTemplate(string $templateId, ?array $options = null): DeleteTemplateResponse
     {
         $options = array_merge($this->options, $options ?? []);
         try {
@@ -252,8 +254,11 @@ class TemplatesClient
             );
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
-                return;
+                $json = $response->getBody()->getContents();
+                return DeleteTemplateResponse::fromJson($json);
             }
+        } catch (JsonException $e) {
+            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
         } catch (RequestException $e) {
             $response = $e->getResponse();
             if ($response === null) {
@@ -277,7 +282,7 @@ class TemplatesClient
     /**
      * Extracts contents from an uploaded template ZIP file and stores individual files in the appropriate S3 storage structure.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be used
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,
@@ -328,7 +333,7 @@ class TemplatesClient
     /**
      * Creates both PNG and PDF preview files for template visualization. Generates previews in parallel and returns URLs for both formats.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be used
      * @param GenerateTemplatePreviewsRequest $request
      * @param ?array{
      *   baseUrl?: string,
@@ -385,7 +390,7 @@ class TemplatesClient
     /**
      * Generates a presigned URL for template access. Used for downloading template files from S3 storage.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template that is being downloaded
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,
@@ -440,7 +445,7 @@ class TemplatesClient
     /**
      * Retrieves the template index.html file from S3 storage. Used for rendering the template in the browser.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be used
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,
@@ -495,7 +500,7 @@ class TemplatesClient
     /**
      * Uploads the template index.html file to S3 storage. Used for rendering the template in the browser.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be used
      * @param UploadTemplateIndexHtmlRequest $request
      * @param ?array{
      *   baseUrl?: string,
@@ -548,7 +553,7 @@ class TemplatesClient
     /**
      * Creates a new template by duplicating an existing template's content and metadata. Includes copying preview files and template index.
      *
-     * @param string $templateId
+     * @param string $templateId ID of the template to be used
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,

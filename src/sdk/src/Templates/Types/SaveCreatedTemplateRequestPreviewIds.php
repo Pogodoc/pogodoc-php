@@ -8,13 +8,13 @@ use Pogodoc\Core\Json\JsonProperty;
 class SaveCreatedTemplateRequestPreviewIds extends JsonSerializableType
 {
     /**
-     * @var string $pngJobId
+     * @var string $pngJobId ID of the job for the PNG preview
      */
     #[JsonProperty('pngJobId')]
     public string $pngJobId;
 
     /**
-     * @var string $pdfJobId
+     * @var string $pdfJobId ID of the job for the PDF preview
      */
     #[JsonProperty('pdfJobId')]
     public string $pdfJobId;

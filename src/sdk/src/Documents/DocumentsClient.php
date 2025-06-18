@@ -16,8 +16,6 @@ use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Documents\Requests\StartRenderJobRequest;
 use Pogodoc\Documents\Types\StartRenderJobResponse;
-use Pogodoc\Documents\Requests\GenerateDocumentPreviewRequest;
-use Pogodoc\Documents\Types\GenerateDocumentPreviewResponse;
 use Pogodoc\Documents\Requests\StartImmediateRenderRequest;
 use Pogodoc\Documents\Types\StartImmediateRenderResponse;
 use Pogodoc\Documents\Types\GetJobStatusResponse;
@@ -172,65 +170,6 @@ class DocumentsClient
     }
 
     /**
-     * Generates a preview by creating a single-page render job, processing it immediately, and returning the output URL. Used for template visualization.
-     *
-     * @param GenerateDocumentPreviewRequest $request
-     * @param ?array{
-     *   baseUrl?: string,
-     *   maxRetries?: int,
-     *   timeout?: float,
-     *   headers?: array<string, string>,
-     *   queryParameters?: array<string, mixed>,
-     *   bodyProperties?: array<string, mixed>,
-     * } $options
-     * @return GenerateDocumentPreviewResponse
-     * @throws PogodocException
-     * @throws PogodocApiException
-     */
-    public function generateDocumentPreview(GenerateDocumentPreviewRequest $request, ?array $options = null): GenerateDocumentPreviewResponse
-    {
-        $options = array_merge($this->options, $options ?? []);
-        $query = [];
-        $query['templateId'] = $request->templateId;
-        try {
-            $response = $this->client->sendRequest(
-                new JsonApiRequest(
-                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
-                    path: "documents/render-preview",
-                    method: HttpMethod::POST,
-                    query: $query,
-                    body: $request,
-                ),
-                $options,
-            );
-            $statusCode = $response->getStatusCode();
-            if ($statusCode >= 200 && $statusCode < 400) {
-                $json = $response->getBody()->getContents();
-                return GenerateDocumentPreviewResponse::fromJson($json);
-            }
-        } catch (JsonException $e) {
-            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
-        } catch (RequestException $e) {
-            $response = $e->getResponse();
-            if ($response === null) {
-                throw new PogodocException(message: $e->getMessage(), previous: $e);
-            }
-            throw new PogodocApiException(
-                message: "API request failed",
-                statusCode: $response->getStatusCode(),
-                body: $response->getBody()->getContents(),
-            );
-        } catch (ClientExceptionInterface $e) {
-            throw new PogodocException(message: $e->getMessage(), previous: $e);
-        }
-        throw new PogodocApiException(
-            message: 'API request failed',
-            statusCode: $statusCode,
-            body: $response->getBody()->getContents(),
-        );
-    }
-
-    /**
      * Combines initialization and rendering in one step. Creates a job, uploads template/data directly, starts rendering, and adds the document to Strapi. Requires subscription check.
      *
      * @param StartImmediateRenderRequest $request
@@ -289,7 +228,7 @@ class DocumentsClient
     /**
      * Fetches detailed job information from S3 storage including job status, template ID, target format, and output details if available.
      *
-     * @param string $jobId
+     * @param string $jobId ID of the render job
      * @param ?array{
      *   baseUrl?: string,
      *   maxRetries?: int,

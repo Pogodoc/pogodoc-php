@@ -8,19 +8,19 @@ use Pogodoc\Core\Json\JsonProperty;
 class GetJobStatusResponse extends JsonSerializableType
 {
     /**
-     * @var value-of<GetJobStatusResponseType> $type
+     * @var value-of<GetJobStatusResponseType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
     public string $type;
 
     /**
-     * @var string $jobId
+     * @var string $jobId ID of the render job
      */
     #[JsonProperty('jobId')]
     public string $jobId;
 
     /**
-     * @var value-of<GetJobStatusResponseTarget> $target
+     * @var value-of<GetJobStatusResponseTarget> $target Type of output to be rendered
      */
     #[JsonProperty('target')]
     public string $target;

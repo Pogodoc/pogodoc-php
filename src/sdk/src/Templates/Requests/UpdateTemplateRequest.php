@@ -22,7 +22,7 @@ class UpdateTemplateRequest extends JsonSerializableType
     public UpdateTemplateRequestPreviewIds $previewIds;
 
     /**
-     * @var string $contentId
+     * @var string $contentId ID by which the new template content is saved
      */
     #[JsonProperty('contentId')]
     public string $contentId;

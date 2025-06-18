@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class GeneratePresignedGetUrlResponse extends JsonSerializableType
 {
     /**
-     * @var string $presignedUrl
+     * @var string $presignedUrl Presigned URL to get the template
      */
     #[JsonProperty('presignedUrl')]
     public string $presignedUrl;

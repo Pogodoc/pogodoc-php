@@ -11,19 +11,19 @@ use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestFormatOpts;
 class GenerateTemplatePreviewsRequest extends JsonSerializableType
 {
     /**
-     * @var value-of<GenerateTemplatePreviewsRequestType> $type
+     * @var value-of<GenerateTemplatePreviewsRequestType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
     public string $type;
 
     /**
-     * @var array<string, mixed> $data
+     * @var array<string, mixed> $data Sample data for the template
      */
     #[JsonProperty('data'), ArrayType(['string' => 'mixed'])]
     public array $data;
 
     /**
-     * @var ?GenerateTemplatePreviewsRequestFormatOpts $formatOpts
+     * @var ?GenerateTemplatePreviewsRequestFormatOpts $formatOpts Format options for the rendered document
      */
     #[JsonProperty('formatOpts')]
     public ?GenerateTemplatePreviewsRequestFormatOpts $formatOpts;

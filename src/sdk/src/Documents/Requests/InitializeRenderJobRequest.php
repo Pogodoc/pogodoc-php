@@ -12,31 +12,31 @@ use Pogodoc\Documents\Types\InitializeRenderJobRequestFormatOpts;
 class InitializeRenderJobRequest extends JsonSerializableType
 {
     /**
-     * @var ?array<string, mixed> $data
+     * @var ?array<string, mixed> $data Sample data for the template
      */
     #[JsonProperty('data'), ArrayType(['string' => 'mixed'])]
     public ?array $data;
 
     /**
-     * @var value-of<InitializeRenderJobRequestType> $type
+     * @var value-of<InitializeRenderJobRequestType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
     public string $type;
 
     /**
-     * @var value-of<InitializeRenderJobRequestTarget> $target
+     * @var value-of<InitializeRenderJobRequestTarget> $target Type of output to be rendered
      */
     #[JsonProperty('target')]
     public string $target;
 
     /**
-     * @var ?string $templateId
+     * @var ?string $templateId ID of the template to be used
      */
     #[JsonProperty('templateId')]
     public ?string $templateId;
 
     /**
-     * @var ?InitializeRenderJobRequestFormatOpts $formatOpts
+     * @var ?InitializeRenderJobRequestFormatOpts $formatOpts Format options for the rendered document
      */
     #[JsonProperty('formatOpts')]
     public ?InitializeRenderJobRequestFormatOpts $formatOpts;

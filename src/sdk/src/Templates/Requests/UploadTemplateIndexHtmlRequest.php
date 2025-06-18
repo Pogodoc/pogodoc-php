@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 class UploadTemplateIndexHtmlRequest extends JsonSerializableType
 {
     /**
-     * @var string $templateIndex
+     * @var string $templateIndex New index.html file of the template
      */
     #[JsonProperty('templateIndex')]
     public string $templateIndex;
