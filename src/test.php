@@ -1,9 +1,7 @@
-
-
 <?php
+namespace PogodocSdk;
 
 require_once 'vendor/autoload.php';
-require_once 'index.php';
 
 use Dotenv\Dotenv;
 

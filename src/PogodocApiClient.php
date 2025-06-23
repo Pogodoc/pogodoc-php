@@ -1,7 +1,6 @@
 <?php
 
-require_once 'sdk/src/PogodocClient.php';
-require_once 'utils.php';
+namespace PogodocSdk;
 
 use Pogodoc\PogodocClient;
 use Pogodoc\Templates\Requests\GenerateTemplatePreviewsRequest;
@@ -19,6 +18,8 @@ use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
+
+use PogodocSdk\PogodocUtils;
 
 class PogodocApiClient extends PogodocClient
 {
@@ -42,9 +43,9 @@ class PogodocApiClient extends PogodocClient
         $payloadLength = $params['payloadLength'];
 
         $init = $this->templates->initializeTemplateCreation();
-        $templateId = $init->jobId;
+        $templateId = $init->templateId;
 
-        uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
+        PogodocUtils::uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
 
         $this->templates->extractTemplateFiles($templateId);
 
@@ -98,9 +99,9 @@ class PogodocApiClient extends PogodocClient
         $payloadLength = $params['payloadLength'];
 
         $init = $this->templates->initializeTemplateCreation();
-        $contentId = $init->jobId;
+        $contentId = $init->templateId;
 
-        uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
+        PogodocUtils::uploadToS3WithUrl($init->presignedTemplateUploadUrl, $payload, $payloadLength, 'application/zip');
 
         $this->templates->extractTemplateFiles($contentId);
 
@@ -140,7 +141,7 @@ class PogodocApiClient extends PogodocClient
     public function generateDocument(array $params)
     {
         $template = $params['template'] ?? "";
-        $templateId = $params['templateId'];
+        $templateId = $params['templateId'] ?? "";
         $data = $params['data'];
         $renderConfig = $params['renderConfig'];
         $shouldWait = $params['shouldWaitForRenderCompletion'];
@@ -160,7 +161,7 @@ class PogodocApiClient extends PogodocClient
         rewind($dataStream);
 
         if (!empty($initResponse->presignedDataUploadUrl)) {
-            uploadToS3WithUrl(
+            PogodocUtils::uploadToS3WithUrl(
                 $initResponse->presignedDataUploadUrl,
                 $dataStream,
                 strlen($dataString),
@@ -173,7 +174,7 @@ class PogodocApiClient extends PogodocClient
             fwrite($templateStream, $template);
             rewind($templateStream);
 
-            uploadToS3WithUrl(
+            PogodocUtils::uploadToS3WithUrl(
                 $initResponse->presignedTemplateUploadUrl,
                 $templateStream,
                 strlen($template),

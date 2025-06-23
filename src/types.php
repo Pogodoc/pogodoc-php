@@ -1,5 +1,7 @@
 <?php
 
+namespace PogodocSdk;
+
 enum TemplateFormatType: string
 {
     case Docx = 'docx';

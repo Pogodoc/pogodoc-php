@@ -2,7 +2,8 @@
   "name": "pogodoc/pogodoc-php",
   "autoload": {
     "psr-4": {
-      "Pogodoc\\": "src/sdk/src"
+      "PogodocSdk\\": "src/",
+      "Pogodoc\\": "src/sdk/src/"
     }
   },
   "authors": [
