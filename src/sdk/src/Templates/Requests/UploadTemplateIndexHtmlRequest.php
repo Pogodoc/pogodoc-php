@@ -8,19 +8,19 @@ use Pogodoc\Core\Json\JsonProperty;
 class UploadTemplateIndexHtmlRequest extends JsonSerializableType
 {
     /**
-     * @var string $templateIndex New index.html file of the template
+     * @var string $indexHtml New index.html file of the template
      */
-    #[JsonProperty('templateIndex')]
-    public string $templateIndex;
+    #[JsonProperty('indexHtml')]
+    public string $indexHtml;
 
     /**
      * @param array{
-     *   templateIndex: string,
+     *   indexHtml: string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->templateIndex = $values['templateIndex'];
+        $this->indexHtml = $values['indexHtml'];
     }
 }
