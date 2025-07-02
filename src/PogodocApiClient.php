@@ -29,12 +29,12 @@ class PogodocApiClient extends PogodocClient
 {
     public function __construct(?string $apiToken = null, array $config = [])
     {
-        if( $apiToken === null && !isset($_ENV['API_TOKEN'])) {
-            throw new \InvalidArgumentException("API token is required. Please provide it either as a parameter or set the API_TOKEN environment variable.");
+        if( $apiToken === null && !isset($_ENV['POGODOC_API_TOKEN'])) {
+            throw new \InvalidArgumentException("API token is required. Please provide it either as a parameter or set the POGODOC_API_TOKEN environment variable.");
         }
-        $config['baseUrl'] = $config['baseUrl'] ?? $_ENV['BASE_URL'] ?? Environments::Default_->value;;
+        $config['baseUrl'] = $config['baseUrl'] ?? $_ENV['POGODOC_BASE_URL'] ?? Environments::Default_->value;;
         parent::__construct(
-            $apiToken ?? $_ENV['API_TOKEN'],
+            $apiToken ?? $_ENV['POGODOC_API_TOKEN'],
             $config);
 
     }
