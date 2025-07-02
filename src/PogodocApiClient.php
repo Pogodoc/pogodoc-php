@@ -18,11 +18,26 @@ use Pogodoc\Templates\Types\GenerateTemplatePreviewsRequestType;
 use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
-
+use Pogodoc\Environments;
 use PogodocSdk\PogodocUtils;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
 
 class PogodocApiClient extends PogodocClient
 {
+    public function __construct(?string $apiToken = null, array $config = [])
+    {
+        if( $apiToken === null && !isset($_ENV['POGODOC_API_TOKEN'])) {
+            throw new \InvalidArgumentException("API token is required. Please provide it either as a parameter or set the POGODOC_API_TOKEN environment variable.");
+        }
+        $config['baseUrl'] = $config['baseUrl'] ?? $_ENV['POGODOC_BASE_URL'] ?? Environments::Default_->value;;
+        parent::__construct(
+            $apiToken ?? $_ENV['POGODOC_API_TOKEN'],
+            $config);
+
+    }
 
     public function saveTemplate(array $params)
     {
