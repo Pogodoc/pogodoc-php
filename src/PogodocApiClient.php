@@ -156,7 +156,7 @@ class PogodocApiClient extends PogodocClient
     public function generateDocument(array $params)
     {
         $template = $params['template'] ?? "";
-        $templateId = $params['templateId'] ?? "";
+        $templateId = $params['templateId'] ?? "";  
         $data = $params['data'];
         $renderConfig = $params['renderConfig'];
         $shouldWait = $params['shouldWaitForRenderCompletion'];
@@ -165,7 +165,7 @@ class PogodocApiClient extends PogodocClient
             'type' => InitializeRenderJobRequestType::from($renderConfig['type'])->value,
             'target' => InitializeRenderJobRequestTarget::from($renderConfig['target'])->value,
             'templateId' => $templateId,
-            'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts']),
+            'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts'] ?? []),
         ]);
 
         $initResponse = $this->documents->initializeRenderJob($initRequest);
