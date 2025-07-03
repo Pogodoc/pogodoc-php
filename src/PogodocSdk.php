@@ -20,12 +20,8 @@ use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
 use Pogodoc\Environments;
 use PogodocSdk\PogodocUtils;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
-$dotenv->load();
-
-class PogodocApiClient extends PogodocClient
+class PogodocSdk extends PogodocClient
 {
     public function __construct(?string $apiToken = null, array $config = [])
     {
@@ -165,7 +161,7 @@ class PogodocApiClient extends PogodocClient
             'type' => InitializeRenderJobRequestType::from($renderConfig['type'])->value,
             'target' => InitializeRenderJobRequestTarget::from($renderConfig['target'])->value,
             'templateId' => $templateId,
-            'formatOpts' => new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts'] ?? []),
+            'formatOpts' => $renderConfig['formatOpts'] ? new InitializeRenderJobRequestFormatOpts($renderConfig['formatOpts']) : null,
         ]);
 
         $initResponse = $this->documents->initializeRenderJob($initRequest);

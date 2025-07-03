@@ -4,6 +4,8 @@ namespace PogodocSdk;
 require_once 'vendor/autoload.php';
 
 use Dotenv\Dotenv;
+use PogodocSdk\PogodocSdk;
+use Exception;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
@@ -12,10 +14,10 @@ $sampleData = readJsonFile(__DIR__ . '/../../../data/json_data/react.json');
 $templatePath = __DIR__ . '/../../../data/templates/React-Demo-App.zip';
 
 
-$client = new PogodocApiClient(
-    $_ENV['POGODOC_API_TOKEN'] ?? '',
+$client = new PogodocSdk(
+    $_ENV['POGODOC_API_TOKEN'],
     [
-        'baseUrl' =>  $_ENV['LAMBDA_BASE_URL'] ?? '',
+        'baseUrl' =>  $_ENV['LAMBDA_BASE_URL'],
     ],
    
 );
