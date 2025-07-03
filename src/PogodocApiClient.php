@@ -156,9 +156,9 @@ class PogodocApiClient extends PogodocClient
     public function generateDocument(array $params)
     {
         $template = $params['template'] ?? "";
-        $templateId = $params['templateId'] ?? "";
+        $templateId = $params['templateId'] ?? "";  
         $data = $params['data'];
-        $renderConfig = $params['renderConfig'] ?? [];
+        $renderConfig = $params['renderConfig'];
         $shouldWait = $params['shouldWaitForRenderCompletion'];
 
         $initRequest = new InitializeRenderJobRequest([
