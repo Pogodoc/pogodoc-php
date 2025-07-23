@@ -45,7 +45,6 @@ $response = $client->generateDocument([
         'type' => 'ejs',
         'target' => 'pdf',
     ],
-    'shouldWaitForRenderCompletion' => true,
 ]);
 
 printf("Generated document url:\n %s\n", $response->output->data->url);

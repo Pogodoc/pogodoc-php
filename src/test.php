@@ -17,18 +17,18 @@ $templatePath = __DIR__ . '/../../../data/templates/React-Demo-App.zip';
 $client = new PogodocSdk(
     $_ENV['POGODOC_API_TOKEN'],
     [
-        'baseUrl' =>  $_ENV['LAMBDA_BASE_URL'],
+        'baseUrl' =>  $_ENV['POGODOC_BASE_URL'],
     ],
    
 );
 
-function main($client, $templatePath, $sampleData)
+function main(PogodocSdk $client, string $templatePath, array $sampleData)
 {
     $templateId = $client->saveTemplate([
         'path' => $templatePath,
         'title' => "Invoice",
         'description' => 'Invoice template',
-        'type' => "html",
+        'type' => "react",
         'categories' => ['invoice'],
         'sampleData' => $sampleData,
     ]);
@@ -49,27 +49,41 @@ function main($client, $templatePath, $sampleData)
                 'fromPage' => 1,
                 'toPage' => 1,
             ],
-        ],
-        'shouldWaitForRenderCompletion' => true,
+        ]
     ]);
 
    print_r($documentOutput);
 
+   $documentImmediateOutput = $client->generateDocumentImmediate([
+        'templateId' => $templateId,
+        'data' => $sampleData,
+        'renderConfig' => [
+            'type' => 'react',
+            'target' => 'pdf',
+            'formatOpts' => [
+                'fromPage' => 1,
+                'toPage' => 1,
+            ],
+        ]
+    ]);
+
+    print_r($documentImmediateOutput);
+
     $updateTemplateId = $client->updateTemplate([
         'path' => $templatePath,
         'templateId' => $templateId,
-        'title' => 'Invoice',
+        'title' => 'Invoice Updated',
         'description' => 'Invoice template',
-        'type' => 'html',
+        'type' => 'react',
         'categories' => ['invoice'],
         'sampleData' => $sampleData,
     ]);
 
-   echo $updateTemplateId . "\n";
+    echo $updateTemplateId . "\n";
 
     $presignedUrl = $client->templates->generatePresignedGetUrl($templateId);
 
-    print_r($presignedUrl->presignedUrl);
+    print_r($presignedUrl->presignedUrl. "\n");
 
 }
 
