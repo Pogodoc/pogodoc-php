@@ -23,27 +23,18 @@ To use the SDK you will need an API key which can be obtained from the [Pogodoc 
 require __DIR__ . '/vendor/autoload.php';
 
 use PogodocSdk\PogodocSdk;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$client = new PogodocSdk();
-
-$sampleData = [
-    "name" => "John Doe",
-    "email" => "john.doe@example.com",
-    "phone" => "1234567890",
-    "address" => "123 Main St, Anytown, USA",
-    "city" => "Anytown",
-];
+$client = new PogodocSdk("YOUR_POGODOC_API_TOKEN");
 
 $response = $client->generateDocument([
     'templateId' => $templateId,
-    'data' => $sampleData,
+    'data' => ["name" => "John Doe"];,
     'renderConfig' => [
         'type' => 'ejs',
         'target' => 'pdf',
+        'formatOpts' => [
+                'fromPage' => 1,
+            ],
     ],
 ]);
 
