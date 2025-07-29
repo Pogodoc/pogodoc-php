@@ -3,20 +3,14 @@
 namespace Pogodoc\Documents\Requests;
 
 use Pogodoc\Core\Json\JsonSerializableType;
-use Pogodoc\Core\Json\JsonProperty;
-use Pogodoc\Core\Types\ArrayType;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestType;
+use Pogodoc\Core\Json\JsonProperty;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestTarget;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestFormatOpts;
+use Pogodoc\Core\Types\ArrayType;
 
 class StartImmediateRenderRequest extends JsonSerializableType
 {
-    /**
-     * @var array<string, mixed> $startImmediateRenderRequestData Sample data for the template
-     */
-    #[JsonProperty('data'), ArrayType(['string' => 'mixed'])]
-    public array $startImmediateRenderRequestData;
-
     /**
      * @var value-of<StartImmediateRenderRequestType> $type Type of template to be rendered
      */
@@ -42,29 +36,43 @@ class StartImmediateRenderRequest extends JsonSerializableType
     public ?StartImmediateRenderRequestFormatOpts $formatOpts;
 
     /**
+     * @var array<string, mixed> $data Sample data for the template
+     */
+    #[JsonProperty('data'), ArrayType(['string' => 'mixed'])]
+    public array $data;
+
+    /**
      * @var ?string $template index.html or ejs file of the template as a string
      */
     #[JsonProperty('template')]
     public ?string $template;
 
     /**
+     * @var ?string $uploadPresignedS3Url
+     */
+    #[JsonProperty('uploadPresignedS3Url')]
+    public ?string $uploadPresignedS3Url;
+
+    /**
      * @param array{
-     *   startImmediateRenderRequestData: array<string, mixed>,
      *   type: value-of<StartImmediateRenderRequestType>,
      *   target: value-of<StartImmediateRenderRequestTarget>,
+     *   data: array<string, mixed>,
      *   templateId?: ?string,
      *   formatOpts?: ?StartImmediateRenderRequestFormatOpts,
      *   template?: ?string,
+     *   uploadPresignedS3Url?: ?string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->startImmediateRenderRequestData = $values['startImmediateRenderRequestData'];
         $this->type = $values['type'];
         $this->target = $values['target'];
         $this->templateId = $values['templateId'] ?? null;
         $this->formatOpts = $values['formatOpts'] ?? null;
+        $this->data = $values['data'];
         $this->template = $values['template'] ?? null;
+        $this->uploadPresignedS3Url = $values['uploadPresignedS3Url'] ?? null;
     }
 }

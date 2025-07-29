@@ -1,9 +1,9 @@
 {
-  "name": "pogodoc/pogodoc",
+  "name": "Pogodoc/Pogodoc",
   "version": "0.0.0",
   "description": "Pogodoc PHP Library",
   "keywords": [
-    "pogodoc",
+    "Pogodoc",
     "api",
     "sdk"
   ],
