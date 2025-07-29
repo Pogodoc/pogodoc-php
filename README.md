@@ -27,14 +27,14 @@ use PogodocSdk\PogodocSdk;
 $client = new PogodocSdk("YOUR_POGODOC_API_TOKEN");
 
 $response = $client->generateDocument([
-    'templateId' => $templateId,
-    'data' => ["name" => "John Doe"];,
+    'templateId' => "your-template-id",
+    'data' => ["name" => "John Doe"],
     'renderConfig' => [
-        'type' => 'ejs',
+        'type' => 'html',
         'target' => 'pdf',
         'formatOpts' => [
-                'fromPage' => 1,
-            ],
+            'fromPage' => 1,
+        ],
     ],
 ]);
 
