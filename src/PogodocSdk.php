@@ -255,7 +255,7 @@ class PogodocSdk extends PogodocClient
             'type'        => StartImmediateRenderRequestType::from($params['renderConfig']['type'])->value,
             'target'      => StartImmediateRenderRequestTarget::from($params['renderConfig']['target'])->value,
             'formatOpts'  => $params['renderConfig']['formatOpts'] ? new StartImmediateRenderRequestFormatOpts($params['renderConfig']['formatOpts']) : null,
-            'startImmediateRenderRequestData' => $params['data'],
+            'data' => $params['data'],
         ]);
 
         return $this->documents->startImmediateRender($startImmediateRenderRequest);
