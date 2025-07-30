@@ -19,7 +19,6 @@ use Pogodoc\Templates\Types\SaveCreatedTemplateRequestTemplateInfoType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestType;
 use Pogodoc\Documents\Types\InitializeRenderJobRequestTarget;
 use Pogodoc\Documents\Types\GetJobStatusResponse;
-use Pogodoc\Documents\Types\StartRenderJobResponse;
 use Pogodoc\Documents\Requests\StartImmediateRenderRequest;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestType;
 use Pogodoc\Documents\Types\StartImmediateRenderRequestTarget;
@@ -279,9 +278,9 @@ class PogodocSdk extends PogodocClient
      * @return GetJobStatusResponse The final job status, including the output URL.
      */
     public function generateDocument(array $params): GetJobStatusResponse{
-        $initResponse = $this->startGenerateDocument($params);
+        $jobId = $this->startGenerateDocument($params);
 
-        return $this->pollForJobCompletion($initResponse->jobId);
+        return $this->pollForJobCompletion($jobId);
     }
 
     /**
@@ -301,9 +300,9 @@ class PogodocSdk extends PogodocClient
      * @param string $params['renderConfig']['type'] The type of rendering.
      * @param string $params['renderConfig']['target'] The target format.
      * @param array $params['renderConfig']['formatOpts'] Additional format options.
-     * @return StartRenderJobResponse The initial job information.
+     * @return string The job ID of the generated document.
      */
-    public function startGenerateDocument(array $params): StartRenderJobResponse
+    public function startGenerateDocument(array $params): string
     {
         $template = $params['template'] ?? "";
         $templateId = $params['templateId'] ?? "";  
@@ -350,7 +349,9 @@ class PogodocSdk extends PogodocClient
             'uploadPresignedS3Url' => $renderConfig->personalUploadPresignedS3Url ?? null,
             ]);
 
-        return $this->documents->startRenderJob($initResponse->jobId, $startRenderJobRequest);
+        $response = $this->documents->startRenderJob($initResponse->jobId, $startRenderJobRequest);
+
+        return $response->jobId;
     }
 
     /**
