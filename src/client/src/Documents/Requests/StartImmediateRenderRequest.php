@@ -48,7 +48,7 @@ class StartImmediateRenderRequest extends JsonSerializableType
     public ?string $template;
 
     /**
-     * @var ?string $uploadPresignedS3Url
+     * @var ?string $uploadPresignedS3Url Presigned URL to upload the data for the render job to S3
      */
     #[JsonProperty('uploadPresignedS3Url')]
     public ?string $uploadPresignedS3Url;
