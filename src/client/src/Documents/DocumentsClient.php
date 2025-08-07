@@ -15,7 +15,10 @@ use JsonException;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Pogodoc\Documents\Requests\StartRenderJobRequest;
-use Pogodoc\Documents\Types\StartRenderJobResponse;
+use Pogodoc\Documents\Types\StartRenderJobResponseError;
+use Pogodoc\Documents\Types\StartRenderJobResponseOne;
+use Pogodoc\Core\Json\JsonDecoder;
+use Pogodoc\Core\Types\Union;
 use Pogodoc\Documents\Requests\StartImmediateRenderRequest;
 use Pogodoc\Documents\Types\StartImmediateRenderResponse;
 use Pogodoc\Documents\Types\GetJobStatusResponse;
@@ -125,11 +128,14 @@ class DocumentsClient
      *   queryParameters?: array<string, mixed>,
      *   bodyProperties?: array<string, mixed>,
      * } $options
-     * @return StartRenderJobResponse
+     * @return (
+     *    StartRenderJobResponseError
+     *   |StartRenderJobResponseOne
+     * )
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function startRenderJob(string $jobId, StartRenderJobRequest $request = new StartRenderJobRequest(), ?array $options = null): StartRenderJobResponse
+    public function startRenderJob(string $jobId, StartRenderJobRequest $request = new StartRenderJobRequest(), ?array $options = null): StartRenderJobResponseError|StartRenderJobResponseOne
     {
         $options = array_merge($this->options, $options ?? []);
         try {
@@ -145,7 +151,7 @@ class DocumentsClient
             $statusCode = $response->getStatusCode();
             if ($statusCode >= 200 && $statusCode < 400) {
                 $json = $response->getBody()->getContents();
-                return StartRenderJobResponse::fromJson($json);
+                return JsonDecoder::decodeUnion($json, new Union(StartRenderJobResponseError::class, StartRenderJobResponseOne::class)); // @phpstan-ignore-line
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);

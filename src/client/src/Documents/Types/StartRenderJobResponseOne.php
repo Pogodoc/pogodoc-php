@@ -5,7 +5,7 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponse extends JsonSerializableType
+class StartRenderJobResponseOne extends JsonSerializableType
 {
     /**
      * @var string $jobId ID of the render job

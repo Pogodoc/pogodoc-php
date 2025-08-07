@@ -5,7 +5,7 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class GetJobStatusResponse extends JsonSerializableType
+class StartRenderJobResponseError extends JsonSerializableType
 {
     /**
      * @var string $jobId ID of the render job
@@ -32,10 +32,10 @@ class GetJobStatusResponse extends JsonSerializableType
     public ?string $uploadPresignedS3Url;
 
     /**
-     * @var ?GetJobStatusResponseFormatOpts $formatOpts Format options for the rendered document
+     * @var ?StartRenderJobResponseErrorFormatOpts $formatOpts Format options for the rendered document
      */
     #[JsonProperty('formatOpts')]
-    public ?GetJobStatusResponseFormatOpts $formatOpts;
+    public ?StartRenderJobResponseErrorFormatOpts $formatOpts;
 
     /**
      * @var ?string $status Status of the render job
@@ -50,10 +50,10 @@ class GetJobStatusResponse extends JsonSerializableType
     public ?bool $success;
 
     /**
-     * @var ?GetJobStatusResponseOutput $output
+     * @var ?StartRenderJobResponseErrorOutput $output
      */
     #[JsonProperty('output')]
-    public ?GetJobStatusResponseOutput $output;
+    public ?StartRenderJobResponseErrorOutput $output;
 
     /**
      * @var ?string $error Error that occurred during render
@@ -67,10 +67,10 @@ class GetJobStatusResponse extends JsonSerializableType
      *   target: string,
      *   templateId?: ?string,
      *   uploadPresignedS3Url?: ?string,
-     *   formatOpts?: ?GetJobStatusResponseFormatOpts,
+     *   formatOpts?: ?StartRenderJobResponseErrorFormatOpts,
      *   status?: ?string,
      *   success?: ?bool,
-     *   output?: ?GetJobStatusResponseOutput,
+     *   output?: ?StartRenderJobResponseErrorOutput,
      *   error?: ?string,
      * } $values
      */
