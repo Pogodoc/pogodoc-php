@@ -5,7 +5,7 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponseError extends JsonSerializableType
+class StartRenderJobResponse extends JsonSerializableType
 {
     /**
      * @var string $jobId ID of the render job
@@ -20,10 +20,10 @@ class StartRenderJobResponseError extends JsonSerializableType
     public ?string $templateId;
 
     /**
-     * @var string $target Target of the render job
+     * @var ?value-of<StartRenderJobResponseTarget> $target Type of output to be rendered
      */
     #[JsonProperty('target')]
-    public string $target;
+    public ?string $target;
 
     /**
      * @var ?string $uploadPresignedS3Url Presigned URL to upload the rendered output to S3
@@ -32,10 +32,10 @@ class StartRenderJobResponseError extends JsonSerializableType
     public ?string $uploadPresignedS3Url;
 
     /**
-     * @var ?StartRenderJobResponseErrorFormatOpts $formatOpts Format options for the rendered document
+     * @var ?StartRenderJobResponseFormatOpts $formatOpts Format options for the rendered document
      */
     #[JsonProperty('formatOpts')]
-    public ?StartRenderJobResponseErrorFormatOpts $formatOpts;
+    public ?StartRenderJobResponseFormatOpts $formatOpts;
 
     /**
      * @var ?string $status Status of the render job
@@ -50,10 +50,10 @@ class StartRenderJobResponseError extends JsonSerializableType
     public ?bool $success;
 
     /**
-     * @var ?StartRenderJobResponseErrorOutput $output
+     * @var ?StartRenderJobResponseOutput $output
      */
     #[JsonProperty('output')]
-    public ?StartRenderJobResponseErrorOutput $output;
+    public ?StartRenderJobResponseOutput $output;
 
     /**
      * @var ?string $error Error that occurred during render
@@ -64,13 +64,13 @@ class StartRenderJobResponseError extends JsonSerializableType
     /**
      * @param array{
      *   jobId: string,
-     *   target: string,
      *   templateId?: ?string,
+     *   target?: ?value-of<StartRenderJobResponseTarget>,
      *   uploadPresignedS3Url?: ?string,
-     *   formatOpts?: ?StartRenderJobResponseErrorFormatOpts,
+     *   formatOpts?: ?StartRenderJobResponseFormatOpts,
      *   status?: ?string,
      *   success?: ?bool,
-     *   output?: ?StartRenderJobResponseErrorOutput,
+     *   output?: ?StartRenderJobResponseOutput,
      *   error?: ?string,
      * } $values
      */
@@ -79,7 +79,7 @@ class StartRenderJobResponseError extends JsonSerializableType
     ) {
         $this->jobId = $values['jobId'];
         $this->templateId = $values['templateId'] ?? null;
-        $this->target = $values['target'];
+        $this->target = $values['target'] ?? null;
         $this->uploadPresignedS3Url = $values['uploadPresignedS3Url'] ?? null;
         $this->formatOpts = $values['formatOpts'] ?? null;
         $this->status = $values['status'] ?? null;

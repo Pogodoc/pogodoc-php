@@ -8,7 +8,7 @@ use Pogodoc\Core\Json\JsonProperty;
 /**
  * Format options for the rendered document
  */
-class StartRenderJobResponseErrorFormatOpts extends JsonSerializableType
+class StartRenderJobResponseFormatOpts extends JsonSerializableType
 {
     /**
      * @var ?float $fromPage
@@ -23,7 +23,7 @@ class StartRenderJobResponseErrorFormatOpts extends JsonSerializableType
     public ?float $toPage;
 
     /**
-     * @var ?value-of<StartRenderJobResponseErrorFormatOptsFormat> $format
+     * @var ?value-of<StartRenderJobResponseFormatOptsFormat> $format
      */
     #[JsonProperty('format')]
     public ?string $format;
@@ -38,7 +38,7 @@ class StartRenderJobResponseErrorFormatOpts extends JsonSerializableType
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
-     *   format?: ?value-of<StartRenderJobResponseErrorFormatOptsFormat>,
+     *   format?: ?value-of<StartRenderJobResponseFormatOptsFormat>,
      *   waitForSelector?: ?string,
      * } $values
      */

@@ -5,24 +5,24 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponseErrorOutput extends JsonSerializableType
+class StartRenderJobResponseOutput extends JsonSerializableType
 {
     /**
-     * @var StartRenderJobResponseErrorOutputData $data
+     * @var StartRenderJobResponseOutputData $data
      */
     #[JsonProperty('data')]
-    public StartRenderJobResponseErrorOutputData $data;
+    public StartRenderJobResponseOutputData $data;
 
     /**
-     * @var StartRenderJobResponseErrorOutputMetadata $metadata
+     * @var StartRenderJobResponseOutputMetadata $metadata
      */
     #[JsonProperty('metadata')]
-    public StartRenderJobResponseErrorOutputMetadata $metadata;
+    public StartRenderJobResponseOutputMetadata $metadata;
 
     /**
      * @param array{
-     *   data: StartRenderJobResponseErrorOutputData,
-     *   metadata: StartRenderJobResponseErrorOutputMetadata,
+     *   data: StartRenderJobResponseOutputData,
+     *   metadata: StartRenderJobResponseOutputMetadata,
      * } $values
      */
     public function __construct(

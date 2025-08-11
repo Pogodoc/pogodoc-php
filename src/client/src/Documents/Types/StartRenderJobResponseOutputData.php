@@ -5,23 +5,23 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponseOne extends JsonSerializableType
+class StartRenderJobResponseOutputData extends JsonSerializableType
 {
     /**
-     * @var string $jobId ID of the render job
+     * @var string $url URL of the rendered output
      */
-    #[JsonProperty('jobId')]
-    public string $jobId;
+    #[JsonProperty('url')]
+    public string $url;
 
     /**
      * @param array{
-     *   jobId: string,
+     *   url: string,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->jobId = $values['jobId'];
+        $this->url = $values['url'];
     }
 
     /**
