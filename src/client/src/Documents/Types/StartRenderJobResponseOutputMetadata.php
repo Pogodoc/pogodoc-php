@@ -5,7 +5,7 @@ namespace Pogodoc\Documents\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class StartRenderJobResponseErrorOutputMetadata extends JsonSerializableType
+class StartRenderJobResponseOutputMetadata extends JsonSerializableType
 {
     /**
      * @var float $renderTime Time taken to render the output

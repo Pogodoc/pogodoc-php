@@ -2,7 +2,7 @@
 
 namespace Pogodoc\Documents\Types;
 
-enum StartRenderJobResponseErrorFormatOptsFormat: string
+enum StartRenderJobResponseFormatOptsFormat: string
 {
     case Letter = "letter";
     case Legal = "legal";

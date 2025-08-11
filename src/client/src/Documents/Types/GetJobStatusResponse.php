@@ -38,10 +38,10 @@ class GetJobStatusResponse extends JsonSerializableType
     public ?GetJobStatusResponseFormatOpts $formatOpts;
 
     /**
-     * @var ?string $status Status of the render job
+     * @var string $status Status of the render job
      */
     #[JsonProperty('status')]
-    public ?string $status;
+    public string $status;
 
     /**
      * @var ?bool $success Whether the render job was successful
@@ -65,10 +65,10 @@ class GetJobStatusResponse extends JsonSerializableType
      * @param array{
      *   jobId: string,
      *   target: string,
+     *   status: string,
      *   templateId?: ?string,
      *   uploadPresignedS3Url?: ?string,
      *   formatOpts?: ?GetJobStatusResponseFormatOpts,
-     *   status?: ?string,
      *   success?: ?bool,
      *   output?: ?GetJobStatusResponseOutput,
      *   error?: ?string,
@@ -82,7 +82,7 @@ class GetJobStatusResponse extends JsonSerializableType
         $this->target = $values['target'];
         $this->uploadPresignedS3Url = $values['uploadPresignedS3Url'] ?? null;
         $this->formatOpts = $values['formatOpts'] ?? null;
-        $this->status = $values['status'] ?? null;
+        $this->status = $values['status'];
         $this->success = $values['success'] ?? null;
         $this->output = $values['output'] ?? null;
         $this->error = $values['error'] ?? null;
