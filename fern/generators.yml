@@ -1,0 +1,12 @@
+api:
+  specs:
+    - openapi: ./openapi/openApiSpec.json
+default-group: local
+groups:
+  local:
+    generators:
+      - name: fernapi/fern-php-sdk
+        version: 0.15.0
+        output:
+          location: local-file-system
+          path: ../src/client
