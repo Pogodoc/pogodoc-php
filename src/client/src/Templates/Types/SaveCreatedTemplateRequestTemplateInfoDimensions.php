@@ -5,31 +5,31 @@ namespace Pogodoc\Templates\Types;
 use Pogodoc\Core\Json\JsonSerializableType;
 use Pogodoc\Core\Json\JsonProperty;
 
-class UpdateTemplateRequestPreviewIds extends JsonSerializableType
+class SaveCreatedTemplateRequestTemplateInfoDimensions extends JsonSerializableType
 {
     /**
-     * @var string $pngJobId
+     * @var float $width
      */
-    #[JsonProperty('pngJobId')]
-    public string $pngJobId;
+    #[JsonProperty('width')]
+    public float $width;
 
     /**
-     * @var string $pdfJobId
+     * @var float $height
      */
-    #[JsonProperty('pdfJobId')]
-    public string $pdfJobId;
+    #[JsonProperty('height')]
+    public float $height;
 
     /**
      * @param array{
-     *   pngJobId: string,
-     *   pdfJobId: string,
+     *   width: float,
+     *   height: float,
      * } $values
      */
     public function __construct(
         array $values,
     ) {
-        $this->pngJobId = $values['pngJobId'];
-        $this->pdfJobId = $values['pdfJobId'];
+        $this->width = $values['width'];
+        $this->height = $values['height'];
     }
 
     /**

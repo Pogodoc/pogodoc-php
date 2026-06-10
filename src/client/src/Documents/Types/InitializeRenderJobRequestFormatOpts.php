@@ -35,11 +35,25 @@ class InitializeRenderJobRequestFormatOpts extends JsonSerializableType
     public ?string $waitForSelector;
 
     /**
+     * @var ?value-of<InitializeRenderJobRequestFormatOptsOrientation> $orientation
+     */
+    #[JsonProperty('orientation')]
+    public ?string $orientation;
+
+    /**
+     * @var ?InitializeRenderJobRequestFormatOptsDimensions $dimensions
+     */
+    #[JsonProperty('dimensions')]
+    public ?InitializeRenderJobRequestFormatOptsDimensions $dimensions;
+
+    /**
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
      *   format?: ?value-of<InitializeRenderJobRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
+     *   orientation?: ?value-of<InitializeRenderJobRequestFormatOptsOrientation>,
+     *   dimensions?: ?InitializeRenderJobRequestFormatOptsDimensions,
      * } $values
      */
     public function __construct(
@@ -49,6 +63,8 @@ class InitializeRenderJobRequestFormatOpts extends JsonSerializableType
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+        $this->orientation = $values['orientation'] ?? null;
+        $this->dimensions = $values['dimensions'] ?? null;
     }
 
     /**

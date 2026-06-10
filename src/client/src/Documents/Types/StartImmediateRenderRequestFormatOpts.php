@@ -35,11 +35,25 @@ class StartImmediateRenderRequestFormatOpts extends JsonSerializableType
     public ?string $waitForSelector;
 
     /**
+     * @var ?value-of<StartImmediateRenderRequestFormatOptsOrientation> $orientation
+     */
+    #[JsonProperty('orientation')]
+    public ?string $orientation;
+
+    /**
+     * @var ?StartImmediateRenderRequestFormatOptsDimensions $dimensions
+     */
+    #[JsonProperty('dimensions')]
+    public ?StartImmediateRenderRequestFormatOptsDimensions $dimensions;
+
+    /**
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
      *   format?: ?value-of<StartImmediateRenderRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
+     *   orientation?: ?value-of<StartImmediateRenderRequestFormatOptsOrientation>,
+     *   dimensions?: ?StartImmediateRenderRequestFormatOptsDimensions,
      * } $values
      */
     public function __construct(
@@ -49,6 +63,8 @@ class StartImmediateRenderRequestFormatOpts extends JsonSerializableType
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+        $this->orientation = $values['orientation'] ?? null;
+        $this->dimensions = $values['dimensions'] ?? null;
     }
 
     /**

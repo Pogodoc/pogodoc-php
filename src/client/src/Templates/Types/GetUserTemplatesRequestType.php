@@ -1,8 +1,8 @@
 <?php
 
-namespace Pogodoc\Documents\Types;
+namespace Pogodoc\Templates\Types;
 
-enum InitializeRenderJobRequestType: string
+enum GetUserTemplatesRequestType: string
 {
     case Docx = "docx";
     case Xlsx = "xlsx";

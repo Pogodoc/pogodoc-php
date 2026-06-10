@@ -13,6 +13,7 @@ use Pogodoc\Core\Client\HttpMethod;
 use JsonException;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Client\ClientExceptionInterface;
+use Pogodoc\Templates\Types\GetTemplateByIdResponse;
 use Pogodoc\Templates\Requests\SaveCreatedTemplateRequest;
 use Pogodoc\Templates\Requests\UpdateTemplateRequest;
 use Pogodoc\Templates\Types\UpdateTemplateResponse;
@@ -23,6 +24,8 @@ use Pogodoc\Templates\Types\GeneratePresignedGetUrlResponse;
 use Pogodoc\Templates\Types\GetTemplateIndexHtmlResponse;
 use Pogodoc\Templates\Requests\UploadTemplateIndexHtmlRequest;
 use Pogodoc\Templates\Types\CloneTemplateResponse;
+use Pogodoc\Templates\Requests\GetUserTemplatesRequest;
+use Pogodoc\Templates\Types\GetUserTemplatesResponse;
 
 class TemplatesClient
 {
@@ -91,6 +94,61 @@ class TemplatesClient
             if ($statusCode >= 200 && $statusCode < 400) {
                 $json = $response->getBody()->getContents();
                 return InitializeTemplateCreationResponse::fromJson($json);
+            }
+        } catch (JsonException $e) {
+            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
+        } catch (ClientExceptionInterface $e) {
+            throw new PogodocException(message: $e->getMessage(), previous: $e);
+        }
+        throw new PogodocApiException(
+            message: 'API request failed',
+            statusCode: $statusCode,
+            body: $response->getBody()->getContents(),
+        );
+    }
+
+    /**
+     * Fetches a single template by its ID for the authenticated user.
+     *
+     * @param string $templateId UUID of the template
+     * @param ?array{
+     *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
+     * } $options
+     * @return GetTemplateByIdResponse
+     * @throws PogodocException
+     * @throws PogodocApiException
+     */
+    public function getTemplateById(string $templateId, ?array $options = null): GetTemplateByIdResponse
+    {
+        $options = array_merge($this->options, $options ?? []);
+        try {
+            $response = $this->client->sendRequest(
+                new JsonApiRequest(
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates/{$templateId}",
+                    method: HttpMethod::GET,
+                ),
+                $options,
+            );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode >= 200 && $statusCode < 400) {
+                $json = $response->getBody()->getContents();
+                return GetTemplateByIdResponse::fromJson($json);
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
@@ -184,7 +242,7 @@ class TemplatesClient
      * @throws PogodocException
      * @throws PogodocApiException
      */
-    public function updateTemplate(string $templateId, UpdateTemplateRequest $request, ?array $options = null): UpdateTemplateResponse
+    public function updateTemplate(string $templateId, UpdateTemplateRequest $request = new UpdateTemplateRequest(), ?array $options = null): UpdateTemplateResponse
     {
         $options = array_merge($this->options, $options ?? []);
         try {
@@ -582,6 +640,75 @@ class TemplatesClient
             if ($statusCode >= 200 && $statusCode < 400) {
                 $json = $response->getBody()->getContents();
                 return CloneTemplateResponse::fromJson($json);
+            }
+        } catch (JsonException $e) {
+            throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw new PogodocException(message: $e->getMessage(), previous: $e);
+            }
+            throw new PogodocApiException(
+                message: "API request failed",
+                statusCode: $response->getStatusCode(),
+                body: $response->getBody()->getContents(),
+            );
+        } catch (ClientExceptionInterface $e) {
+            throw new PogodocException(message: $e->getMessage(), previous: $e);
+        }
+        throw new PogodocApiException(
+            message: 'API request failed',
+            statusCode: $statusCode,
+            body: $response->getBody()->getContents(),
+        );
+    }
+
+    /**
+     * Fetches all templates belonging to the authenticated user. Optionally filter by category.
+     *
+     * @param GetUserTemplatesRequest $request
+     * @param ?array{
+     *   baseUrl?: string,
+     *   maxRetries?: int,
+     *   timeout?: float,
+     *   headers?: array<string, string>,
+     *   queryParameters?: array<string, mixed>,
+     *   bodyProperties?: array<string, mixed>,
+     * } $options
+     * @return GetUserTemplatesResponse
+     * @throws PogodocException
+     * @throws PogodocApiException
+     */
+    public function getUserTemplates(GetUserTemplatesRequest $request = new GetUserTemplatesRequest(), ?array $options = null): GetUserTemplatesResponse
+    {
+        $options = array_merge($this->options, $options ?? []);
+        $query = [];
+        if ($request->category != null) {
+            $query['category'] = $request->category;
+        }
+        if ($request->search != null) {
+            $query['search'] = $request->search;
+        }
+        if ($request->type != null) {
+            $query['type'] = $request->type;
+        }
+        if ($request->sort != null) {
+            $query['sort'] = $request->sort;
+        }
+        try {
+            $response = $this->client->sendRequest(
+                new JsonApiRequest(
+                    baseUrl: $options['baseUrl'] ?? $this->client->options['baseUrl'] ?? Environments::Default_->value,
+                    path: "templates",
+                    method: HttpMethod::GET,
+                    query: $query,
+                ),
+                $options,
+            );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode >= 200 && $statusCode < 400) {
+                $json = $response->getBody()->getContents();
+                return GetUserTemplatesResponse::fromJson($json);
             }
         } catch (JsonException $e) {
             throw new PogodocException(message: "Failed to deserialize response: {$e->getMessage()}", previous: $e);

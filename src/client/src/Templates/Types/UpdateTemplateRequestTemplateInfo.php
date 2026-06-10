@@ -9,28 +9,28 @@ use Pogodoc\Core\Types\ArrayType;
 class UpdateTemplateRequestTemplateInfo extends JsonSerializableType
 {
     /**
-     * @var string $title Title of the template
+     * @var ?string $title Title of the template
      */
     #[JsonProperty('title')]
-    public string $title;
+    public ?string $title;
 
     /**
-     * @var string $description Description of the template
+     * @var ?string $description Description of the template
      */
     #[JsonProperty('description')]
-    public string $description;
+    public ?string $description;
 
     /**
-     * @var value-of<UpdateTemplateRequestTemplateInfoType> $type Type of template to be rendered
+     * @var ?value-of<UpdateTemplateRequestTemplateInfoType> $type Type of template to be rendered
      */
     #[JsonProperty('type')]
-    public string $type;
+    public ?string $type;
 
     /**
-     * @var array<string, mixed> $sampleData Sample data for the template
+     * @var ?array<string, mixed> $sampleData Sample data for the template
      */
     #[JsonProperty('sampleData'), ArrayType(['string' => 'mixed'])]
-    public array $sampleData;
+    public ?array $sampleData;
 
     /**
      * @var ?string $sourceCode
@@ -39,30 +39,46 @@ class UpdateTemplateRequestTemplateInfo extends JsonSerializableType
     public ?string $sourceCode;
 
     /**
-     * @var array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>> $categories Categories of the template
+     * @var ?array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>> $categories Categories of the template
      */
     #[JsonProperty('categories'), ArrayType(['string'])]
-    public array $categories;
+    public ?array $categories;
+
+    /**
+     * @var ?value-of<UpdateTemplateRequestTemplateInfoOrientation> $orientation
+     */
+    #[JsonProperty('orientation')]
+    public ?string $orientation;
+
+    /**
+     * @var ?UpdateTemplateRequestTemplateInfoDimensions $dimensions
+     */
+    #[JsonProperty('dimensions')]
+    public ?UpdateTemplateRequestTemplateInfoDimensions $dimensions;
 
     /**
      * @param array{
-     *   title: string,
-     *   description: string,
-     *   type: value-of<UpdateTemplateRequestTemplateInfoType>,
-     *   sampleData: array<string, mixed>,
-     *   categories: array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>>,
+     *   title?: ?string,
+     *   description?: ?string,
+     *   type?: ?value-of<UpdateTemplateRequestTemplateInfoType>,
+     *   sampleData?: ?array<string, mixed>,
      *   sourceCode?: ?string,
+     *   categories?: ?array<value-of<UpdateTemplateRequestTemplateInfoCategoriesItem>>,
+     *   orientation?: ?value-of<UpdateTemplateRequestTemplateInfoOrientation>,
+     *   dimensions?: ?UpdateTemplateRequestTemplateInfoDimensions,
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
-        $this->title = $values['title'];
-        $this->description = $values['description'];
-        $this->type = $values['type'];
-        $this->sampleData = $values['sampleData'];
+        $this->title = $values['title'] ?? null;
+        $this->description = $values['description'] ?? null;
+        $this->type = $values['type'] ?? null;
+        $this->sampleData = $values['sampleData'] ?? null;
         $this->sourceCode = $values['sourceCode'] ?? null;
-        $this->categories = $values['categories'];
+        $this->categories = $values['categories'] ?? null;
+        $this->orientation = $values['orientation'] ?? null;
+        $this->dimensions = $values['dimensions'] ?? null;
     }
 
     /**

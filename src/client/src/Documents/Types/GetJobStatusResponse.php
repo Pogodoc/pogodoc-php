@@ -14,28 +14,10 @@ class GetJobStatusResponse extends JsonSerializableType
     public string $jobId;
 
     /**
-     * @var ?string $templateId ID of the template being used
-     */
-    #[JsonProperty('templateId')]
-    public ?string $templateId;
-
-    /**
      * @var string $target Target of the render job
      */
     #[JsonProperty('target')]
     public string $target;
-
-    /**
-     * @var ?string $uploadPresignedS3Url Presigned URL to upload the rendered output to S3
-     */
-    #[JsonProperty('uploadPresignedS3Url')]
-    public ?string $uploadPresignedS3Url;
-
-    /**
-     * @var ?GetJobStatusResponseFormatOpts $formatOpts Format options for the rendered document
-     */
-    #[JsonProperty('formatOpts')]
-    public ?GetJobStatusResponseFormatOpts $formatOpts;
 
     /**
      * @var string $status Status of the render job
@@ -66,9 +48,6 @@ class GetJobStatusResponse extends JsonSerializableType
      *   jobId: string,
      *   target: string,
      *   status: string,
-     *   templateId?: ?string,
-     *   uploadPresignedS3Url?: ?string,
-     *   formatOpts?: ?GetJobStatusResponseFormatOpts,
      *   success?: ?bool,
      *   output?: ?GetJobStatusResponseOutput,
      *   error?: ?string,
@@ -78,10 +57,7 @@ class GetJobStatusResponse extends JsonSerializableType
         array $values,
     ) {
         $this->jobId = $values['jobId'];
-        $this->templateId = $values['templateId'] ?? null;
         $this->target = $values['target'];
-        $this->uploadPresignedS3Url = $values['uploadPresignedS3Url'] ?? null;
-        $this->formatOpts = $values['formatOpts'] ?? null;
         $this->status = $values['status'];
         $this->success = $values['success'] ?? null;
         $this->output = $values['output'] ?? null;

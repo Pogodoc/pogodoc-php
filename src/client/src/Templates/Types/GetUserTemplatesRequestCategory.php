@@ -2,7 +2,7 @@
 
 namespace Pogodoc\Templates\Types;
 
-enum UpdateTemplateRequestTemplateInfoCategoriesItem: string
+enum GetUserTemplatesRequestCategory: string
 {
     case Invoice = "invoice";
     case Mail = "mail";
