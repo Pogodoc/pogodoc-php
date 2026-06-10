@@ -45,6 +45,18 @@ class SaveCreatedTemplateRequestTemplateInfo extends JsonSerializableType
     public array $categories;
 
     /**
+     * @var ?value-of<SaveCreatedTemplateRequestTemplateInfoOrientation> $orientation
+     */
+    #[JsonProperty('orientation')]
+    public ?string $orientation;
+
+    /**
+     * @var ?SaveCreatedTemplateRequestTemplateInfoDimensions $dimensions
+     */
+    #[JsonProperty('dimensions')]
+    public ?SaveCreatedTemplateRequestTemplateInfoDimensions $dimensions;
+
+    /**
      * @param array{
      *   title: string,
      *   description: string,
@@ -52,6 +64,8 @@ class SaveCreatedTemplateRequestTemplateInfo extends JsonSerializableType
      *   sampleData: array<string, mixed>,
      *   categories: array<value-of<SaveCreatedTemplateRequestTemplateInfoCategoriesItem>>,
      *   sourceCode?: ?string,
+     *   orientation?: ?value-of<SaveCreatedTemplateRequestTemplateInfoOrientation>,
+     *   dimensions?: ?SaveCreatedTemplateRequestTemplateInfoDimensions,
      * } $values
      */
     public function __construct(
@@ -63,6 +77,8 @@ class SaveCreatedTemplateRequestTemplateInfo extends JsonSerializableType
         $this->sampleData = $values['sampleData'];
         $this->sourceCode = $values['sourceCode'] ?? null;
         $this->categories = $values['categories'];
+        $this->orientation = $values['orientation'] ?? null;
+        $this->dimensions = $values['dimensions'] ?? null;
     }
 
     /**

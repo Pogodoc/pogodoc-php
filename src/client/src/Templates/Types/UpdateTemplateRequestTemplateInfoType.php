@@ -10,5 +10,5 @@ enum UpdateTemplateRequestTemplateInfoType: string
     case Ejs = "ejs";
     case Html = "html";
     case Latex = "latex";
-    case React = "react";
+    case Framework = "framework";
 }

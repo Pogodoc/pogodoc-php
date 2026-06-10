@@ -35,11 +35,25 @@ class GenerateTemplatePreviewsRequestFormatOpts extends JsonSerializableType
     public ?string $waitForSelector;
 
     /**
+     * @var ?value-of<GenerateTemplatePreviewsRequestFormatOptsOrientation> $orientation
+     */
+    #[JsonProperty('orientation')]
+    public ?string $orientation;
+
+    /**
+     * @var ?GenerateTemplatePreviewsRequestFormatOptsDimensions $dimensions
+     */
+    #[JsonProperty('dimensions')]
+    public ?GenerateTemplatePreviewsRequestFormatOptsDimensions $dimensions;
+
+    /**
      * @param array{
      *   fromPage?: ?float,
      *   toPage?: ?float,
      *   format?: ?value-of<GenerateTemplatePreviewsRequestFormatOptsFormat>,
      *   waitForSelector?: ?string,
+     *   orientation?: ?value-of<GenerateTemplatePreviewsRequestFormatOptsOrientation>,
+     *   dimensions?: ?GenerateTemplatePreviewsRequestFormatOptsDimensions,
      * } $values
      */
     public function __construct(
@@ -49,6 +63,8 @@ class GenerateTemplatePreviewsRequestFormatOpts extends JsonSerializableType
         $this->toPage = $values['toPage'] ?? null;
         $this->format = $values['format'] ?? null;
         $this->waitForSelector = $values['waitForSelector'] ?? null;
+        $this->orientation = $values['orientation'] ?? null;
+        $this->dimensions = $values['dimensions'] ?? null;
     }
 
     /**

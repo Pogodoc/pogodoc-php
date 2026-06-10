@@ -8,20 +8,20 @@ use Pogodoc\Core\Json\JsonProperty;
 class UpdateTemplateResponse extends JsonSerializableType
 {
     /**
-     * @var string $newContentId
+     * @var ?string $newContentId
      */
     #[JsonProperty('newContentId')]
-    public string $newContentId;
+    public ?string $newContentId;
 
     /**
      * @param array{
-     *   newContentId: string,
+     *   newContentId?: ?string,
      * } $values
      */
     public function __construct(
-        array $values,
+        array $values = [],
     ) {
-        $this->newContentId = $values['newContentId'];
+        $this->newContentId = $values['newContentId'] ?? null;
     }
 
     /**
